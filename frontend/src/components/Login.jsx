@@ -1,13 +1,49 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Tambahkan logic login disini
+
+    setIsLoading(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage('Login berhasil! Selamat datang.');
+        setErrorMessage('');
+
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+        }
+
+        setTimeout(() => navigate('/'), 2000); 
+      } else {
+        setErrorMessage(data.error || 'Login gagal. Silakan periksa email dan kata sandi Anda.');
+      }
+    } catch (error) {
+      setErrorMessage('Gagal menghubungi server. Silakan coba lagi nanti.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -21,7 +57,7 @@ const LoginForm = () => {
           Dapatkan Dukungan, Pelajari Lebih Dalam Menuju Lingkungan Bersih
         </p>
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="space-y-4">
             <div>
               <label className="block text-[#000000] mb-2 font-medium" htmlFor="email">
@@ -34,6 +70,7 @@ const LoginForm = () => {
                 placeholder="Masukkan alamat email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
@@ -48,14 +85,17 @@ const LoginForm = () => {
                 placeholder="Masukkan kata sandi"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
-
+            {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+            {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
             <button
               type="submit"
               className="w-full bg-[#66BB6A] font-medium text-white py-2 rounded-md hover:bg-green-600 transition duration-300"
+              disabled={isLoading}
             >
-              Masuk
+              {isLoading ? 'Memuat...' : 'Login'}
             </button>
           </div>
         </form>

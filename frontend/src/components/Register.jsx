@@ -2,35 +2,65 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [nohp, setTelp] = useState('');
-  const [konfirmasipw, setKonfirmasipw] = useState('');
-  const [errorMessage, setErrorMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    konfirmasiPassword: '',
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Tambahkan logic register disini
-  };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+    const { name, email, password, konfirmasiPassword } = formData;
 
-  const handleKonfirmasiPasswordChange = (e) => {
-    setKonfirmasipw(e.target.value);
-    
-    if (e.target.value !== password) {
-      setErrorMessage("Kata sandi dan konfirmasi kata sandi tidak cocok.");
-    } else {
-      setErrorMessage("");
+    if (password !== konfirmasiPassword) {
+      setErrorMessage('Kata sandi dan konfirmasi kata sandi tidak cocok.');
+      return;
+    }
+
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('http://localhost:5000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }), 
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage(data.error || 'Terjadi kesalahan. Silakan coba lagi.');
+      } else {
+        setSuccessMessage('Pendaftaran berhasil! Silakan login.');
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+          konfirmasiPassword: '',
+        });
+      }
+    } catch (error) {
+      setErrorMessage('Tidak dapat terhubung ke server. Coba lagi nanti.');
     }
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center mt-16
-    " style={{ backgroundImage: "url('/images/bg.jpg')" }}>
+    <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center mt-16" 
+         style={{ backgroundImage: "url('/images/bg.jpg')" }}>
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
       <div className="relative bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-2 text-[#000000]">
@@ -39,20 +69,25 @@ const RegisterForm = () => {
         <p className="text-center text-[#000000] mb-6">
           Dapatkan Dukungan, Pelajari Lebih Dalam Menuju Lingkungan Bersih
         </p>
-        
+
+        {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
+        {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+
         <form onSubmit={handleSubmit}>
           <div className="space-y-4">
-          <div>
-              <label className="block text-[#000000] mb-2 font-medium" htmlFor="email">
+            <div>
+              <label className="block text-[#000000] mb-2 font-medium" htmlFor="name">
                 Nama
               </label>
               <input
                 id="name"
-                type="name"
+                name="name"
+                type="text"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Masukkan nama"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={handleChange}
+                required
               />
             </div>
             
@@ -62,25 +97,13 @@ const RegisterForm = () => {
               </label>
               <input
                 id="email"
+                name="email"
                 type="email"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Masukkan email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block text-[#000000] mb-2 font-medium" htmlFor="nohp">
-                Nomor Handphone
-              </label>
-              <input
-                id="nohp"
-                type="tel"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Masukkan nomor handphone"
-                value={nohp}
-                onChange={(e) => setTelp(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
+                required
               />
             </div>
 
@@ -90,39 +113,38 @@ const RegisterForm = () => {
               </label>
               <input
                 id="password"
+                name="password"
                 type="password"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Masukkan kata sandi"
-                value={password}
-                onChange={handlePasswordChange}
+                value={formData.password}
+                onChange={handleChange}
+                required
               />
             </div>
 
             <div>
-                <label className="block text-[#000000] mb-2 font-medium" htmlFor="konfirmasipw">
-                    Konfirmasi Kata Sandi
-                </label>
-                <input
-                    id="konfirmasipw"
-                    type="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                    placeholder="Masukkan ulang kata sandi"
-                    value={konfirmasipw}
-                    onChange={handleKonfirmasiPasswordChange}
-                />
+              <label className="block text-[#000000] mb-2 font-medium" htmlFor="konfirmasiPassword">
+                Konfirmasi Kata Sandi
+              </label>
+              <input
+                id="konfirmasiPassword"
+                name="konfirmasiPassword"
+                type="password"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Masukkan ulang kata sandi"
+                value={formData.konfirmasiPassword}
+                onChange={handleChange}
+                required
+              />
             </div>
-                {errorMessage && (
-                    <p className="text-red-500 mt-2">{errorMessage}</p>
-                )}
+
             <button
               type="submit"
               className="w-full bg-[#66BB6A] font-medium text-white py-2 rounded-md hover:bg-green-600 transition duration-300"
             >
               Daftar Sekarang
             </button>
-
-           
-
           </div>
         </form>
 
@@ -130,9 +152,7 @@ const RegisterForm = () => {
           <p className="text-[#000000] font-medium">Atau</p>
         </div>
 
-        <button
-          className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 rounded-md py-2 hover:bg-gray-50 transition duration-300 text-[#000000] font-medium"
-        >
+        <button className="mt-4 w-full flex items-center justify-center gap-2 border border-gray-300 rounded-md py-2 hover:bg-gray-50 transition duration-300 text-[#000000] font-medium">
           <img
             src="https://www.google.com/favicon.ico"
             alt="Google"
@@ -142,12 +162,12 @@ const RegisterForm = () => {
         </button>
 
         <div className="mt-6 text-center space-y-2">
-            <p className="text-[#000000] font-medium">
-                Sudah punya akun?{" "} 
-                <span className="text-[#66BB6A] font-medium hover:text-green-600">
-                <Link to="/masuk">Masuk Disini</Link>
-                </span>
-            </p>
+          <p className="text-[#000000] font-medium">
+            Sudah punya akun?{" "}
+            <span className="text-[#66BB6A] font-medium hover:text-green-600">
+              <Link to="/masuk">Masuk Disini</Link>
+            </span>
+          </p>
         </div>
       </div>
     </div>

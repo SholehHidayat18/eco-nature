@@ -3,16 +3,37 @@ import { Link } from 'react-router-dom';
 
 const ResetForm = () => {
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmationPassword, setConfirmationPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
+  const handleResetPassword = async (e) => {
+      e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+      if (newPassword !== confirmationPassword) {
+          setErrorMessage('Kata sandi baru dan konfirmasi kata sandi tidak cocok.');
+          return;
+      }
 
-  const handleSendCode = () => {
+      try {
+          const response = await fetch('http://localhost:5000/auth/reset-password', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, newPassword }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+              setSuccessMessage('Password berhasil direset. Silakan masuk dengan kata sandi baru Anda.');
+              setErrorMessage('');
+          } else {
+              setErrorMessage(data.error || 'Terjadi kesalahan saat mereset kata sandi.');
+          }
+      } catch (error) {
+          setErrorMessage('Gagal menghubungi server. Silakan coba lagi nanti.');
+      }
   };
 
   return (
@@ -27,7 +48,7 @@ const ResetForm = () => {
             Kami akan mengirimkan kode ke email untuk mereset kata sandi anda
         </p>
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleResetPassword}>
           <div className="space-y-4">
             <div>
               <label className="block text-[#000000] mb-2 font-medium" htmlFor="email">
@@ -42,28 +63,7 @@ const ResetForm = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <button
-                  type="button"
-                  onClick={handleSendCode}
-                  className="px-4 py-2 bg-[#66BB6A] text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                >
-                  Kirim Kode
-                </button>
               </div>
-            </div>
-
-            <div>
-              <label className="block text-[#000000] mb-2 font-medium" htmlFor="code">
-                Masukkan Kode
-              </label>
-              <input
-                id="code"
-                type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Masukkan kode"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
             </div>
 
             <div>
@@ -89,11 +89,16 @@ const ResetForm = () => {
                 type="password"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Masukkan ulang kata sandi baru"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmationPassword}
+                onChange={(e) => setConfirmationPassword(e.target.value)}
               />
             </div>
-
+              {errorMessage && (
+                <p className="text-red-500 mt-2">{errorMessage}</p>
+              )}
+              {successMessage && (
+                <p className="text-green-500 mt-2">{successMessage}</p>
+              )}
             <button
               type="submit"
               className="w-full bg-[#66BB6A] font-medium text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
