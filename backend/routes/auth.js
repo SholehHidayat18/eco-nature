@@ -1,11 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcrypt'); // Pastikan bcrypt sudah diinstal
 const jwt = require('jsonwebtoken'); // Pastikan jsonwebtoken sudah diinstal
+const crypto = require('crypto'); // Untuk generate token reset
+const nodemailer = require('nodemailer'); // Untuk mengirim email
 const db = require('../config/db'); // Pastikan path ke file database Anda benar
 
 const router = express.Router();
 
-// Endpoint untuk registrasi
+// Endpoint untuk registrasi (sudah ada)
 router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -46,7 +48,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Endpoint untuk login
+// Endpoint untuk login (sudah ada)
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -87,6 +89,51 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
+// Endpoint untuk mengganti password
+router.post('/reset-password', async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    // Validasi input
+    if (!email || !newPassword) {
+        return res.status(400).json({ error: 'Email dan password baru wajib diisi' });
+    }
+
+    try {
+        // Cek apakah email terdaftar
+        const query = 'SELECT * FROM users WHERE email = ?';
+        db.query(query, [email], async (err, results) => {
+            if (err) {
+                console.error('Database error:', err.message);
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            if (results.length === 0) {
+                return res.status(400).json({ error: 'Email tidak terdaftar' });
+            }
+
+            const user = results[0];
+
+            // Hashing password baru
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            // Query untuk memperbarui password
+            const updateQuery = 'UPDATE users SET password_hash = ? WHERE email = ?';
+            db.query(updateQuery, [hashedPassword, email], (err, result) => {
+                if (err) {
+                    console.error('Database error:', err.message);
+                    return res.status(500).json({ error: 'Database error' });
+                }
+
+                res.json({ message: 'Password berhasil diperbarui' });
+            });
+        });
+    } catch (error) {
+        console.error('Server error:', error.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 
 // Export router
 module.exports = router;
