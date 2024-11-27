@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +11,8 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false); // Menambahkan status loading
 
   const navigate = useNavigate();
+
+  const { login: contextLogin } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,10 +35,8 @@ const Login = () => {
         setSuccessMessage('Login berhasil! Selamat datang.');
         setErrorMessage('');
 
-        // Simpan token di localStorage (jika ada)
-        if (data.token) {
-          localStorage.setItem('authToken', data.token);
-        }
+        contextLogin(data.token, data.role, data.name)
+        navigate('/home')
 
         // Navigasi ke halaman beranda (home) setelah login berhasil
         setTimeout(() => navigate('/'), 2000); // Mengarahkan ke halaman beranda
@@ -101,7 +103,7 @@ const Login = () => {
         <div className="text-center mt-4">
           <button
             onClick={() => navigate('/reset')}
-            className="text-blue-500 hover:underline"
+            className="text-green-600 hover:underline"
           >
             Lupa Password?
           </button>

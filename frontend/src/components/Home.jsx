@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 const news = [
   {
     id: 1,
@@ -33,6 +35,7 @@ const Home = () => {
   }
   return (
     <div>
+      
       <div className="relative bg-cover bg-center h-[600px]" style={{ backgroundImage: "url('/images/bg.jpg')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">

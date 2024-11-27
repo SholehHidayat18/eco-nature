@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Footer from './components/Footer';
@@ -9,96 +10,97 @@ import Reset from './components/Reset';
 import TentangKami from './components/TentangKami';
 import Kontak from './components/Kontak';
 import Error from './components/Error';
-
-import {
-  Donasi,
-  Donasi1,
-  Donasi2,
-  Donasi3,
-  Donasi4,
-  Donasi5,
-  Donasi6,
-  Edukasi,
-  Edukasi1,
-  Edukasi2,
-  Edukasi3,
-  Edukasi4,
-  Edukasi5,
-  Edukasi6,
-  Pengaduan,
-  KebijakanPrivasi,
-  DaftarPengaduan,
-  LaporanPengguna1,
-  LaporanPengguna2,
-  LaporanPengguna3,
-  LaporanPengguna4,
-  LaporanPengguna5,
-  LaporanPengguna6,
-  Relawan,
-  Poin,
-  Berita,
-  Berita1,
-  Berita2,
-  Berita3,
-  Berita4,
-  Berita5,
-  Berita6,
-  DonasiPage,
-} from './components/features';
+import { useAuth } from './context/AuthContext';
+import Dashboard from './Layout/Dashboard';
 
 
-const App = () => {
-  return (
-    <Router>
-      <div className="min-h-screen bg-white">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tentang-kami" element={<TentangKami />} />
-          <Route path="/kontak" element={<Kontak />} />
-          <Route path="/masuk" element={<Login />} />
-          <Route path="/daftar" element={<Register />} />
-          <Route path="/reset" element={<Reset />} />
-          <Route path="/error" element={<Error />} />
-          
-          <Route path="/Donasi" element={<Donasi />} />
-          <Route path="/Donasi1" element={<Donasi1 />} />
-          <Route path="/Donasi2" element={<Donasi2 />} />
-          <Route path="/Donasi3" element={<Donasi3 />} />
-          <Route path="/Donasi4" element={<Donasi4 />} />
-          <Route path="/Donasi5" element={<Donasi5 />} />
-          <Route path="/Donasi6" element={<Donasi6 />} />
-          <Route path="/DonasiPage" element={<DonasiPage />} />
-          <Route path="/Edukasi" element={<Edukasi />} />
-          <Route path="/Edukasi1" element={<Edukasi1 />} />
-          <Route path="/Edukasi2" element={<Edukasi2 />} />
-          <Route path="/Edukasi3" element={<Edukasi3 />} />
-          <Route path="/Edukasi4" element={<Edukasi4 />} />
-          <Route path="/Edukasi5" element={<Edukasi5 />} />
-          <Route path="/Edukasi6" element={<Edukasi6 />} />
-          <Route path="/Relawan" element={<Relawan />} />
-          <Route path="/Pengaduan" element={<Pengaduan />} />
-          <Route path="/KebijakanPrivasi" element={<KebijakanPrivasi />} />
-          <Route path="/DaftarPengaduan" element={<DaftarPengaduan />} />
-          <Route path="/LaporanPengguna1" element={<LaporanPengguna1 />} />
-          <Route path="/LaporanPengguna2" element={<LaporanPengguna2 />} />
-          <Route path="/LaporanPengguna3" element={<LaporanPengguna3 />} />
-          <Route path="/LaporanPengguna4" element={<LaporanPengguna4 />} />
-          <Route path="/LaporanPengguna5" element={<LaporanPengguna5 />} />
-          <Route path="/LaporanPengguna6" element={<LaporanPengguna6 />} />
-          <Route path="/Poin" element={<Poin />} />
-          <Route path="/Berita" element={<Berita />} />
-          <Route path="/Berita1" element={<Berita1 />} />
-          <Route path="/Berita2" element={<Berita2 />} />
-          <Route path="/Berita3" element={<Berita3 />} />
-          <Route path="/Berita4" element={<Berita4 />} />
-          <Route path="/Berita5" element={<Berita5 />} />
-          <Route path="/Berita6" element={<Berita6 />} />
-        </Routes>
-        <Footer />
+function AppRoutes ()  {
+  const [isLoading, setIsLoading] = useState(true);
+  const { isAuth, userRole } = useAuth();
+  //console.log(isAuth, userRole);
+ 
+
+  useEffect(() => {
+    setIsLoading(false); // Set loading to false directly if not mitra
+  }, [ userRole]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex items-center space-x-2">
+          <svg
+            aria-hidden="true"
+            className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+          <span className="sr-only">Loading...</span>
+        </div>
       </div>
-    </Router>
+    );
+  }
+  return (
+
+    
+      <div className="min-h-screen bg-white">
+        <Navbar/>
+        <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/masuk" element={<Login />} />
+        <Route path="/daftar" element={<Register />} />
+        <Route path="/reset" element={<Reset />} />
+        <Route path="/tentang-kami" element={<TentangKami />} />
+            <Route path="/kontak" element={<Kontak />} />
+            <Route path="/error" element={<Error />} />
+          {isAuth ? (
+            <>
+              { userRole === 'user' && (
+                <>
+                  <Route path="*" element={<Dashboard />} />
+                  
+
+                </>
+              )}
+              { userRole === 'admin' && (
+                <>
+                 
+                </>
+              )}
+            </>
+          ) : (
+            <>
+            
+            
+            <Route path="*" element={<Navigate to="/" replace />} />
+            </>
+          )}
+                 
+
+      </Routes>
+      <Footer />
+    </div>
+      
+    
   );
 };
+function App() {
+  return (
+    <div className="bg-white dark:bg-gray-800 min-h-screen scroll-smooth">
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </div>
+  );
+}
 
 export default App;

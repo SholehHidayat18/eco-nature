@@ -75,7 +75,7 @@ const Reset = () => {
   
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition"
+              className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition"
             >
               Reset Password
             </button>

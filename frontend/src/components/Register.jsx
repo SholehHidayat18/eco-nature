@@ -38,7 +38,7 @@ const Register = () => {
         },
         body: JSON.stringify({ name, email, password }), // Tidak perlu kirim nohp lagi
       });
- 
+      
       const data = await response.json();
 
       if (!response.ok) {

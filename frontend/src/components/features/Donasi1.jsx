@@ -79,7 +79,7 @@ const Donasi1 = () => {
                           50rb
                       </button>
                       <button className="px-6 py-2 bg-[#66bb6a] text-white rounded-lg hover:bg-green-600 text-sm font-medium">
-                          DONASI
+                      <a href="/PembayaranDonasi"> DONASI</a>
                       </button>
                     </div>
                 </div>
