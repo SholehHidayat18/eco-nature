@@ -37,7 +37,7 @@ const Donasi5 = () => {
                     <div className="flex-1">
                     <div className="h-2.5 w-full bg-gray-200 rounded-full mb-2">
                         <div 
-                        className="h-2.5 bg-[#66bb6a] rounded-full" 
+                        className="h-2.5 bg-[#3B9E3F] rounded-full" 
                         style={{ width: '95%' }}
                         ></div>
                     </div>
@@ -78,7 +78,7 @@ const Donasi5 = () => {
                       <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">
                           50rb
                       </button>
-                      <button className="px-6 py-2 bg-[#66bb6a] text-white rounded-lg hover:bg-green-600 text-sm font-medium">
+                      <button className="px-6 py-2 bg-[#3B9E3F] text-white rounded-lg hover:bg-green-700 text-sm font-medium">
                           DONASI
                       </button>
                     </div>
@@ -175,19 +175,19 @@ const Donasi5 = () => {
                                 alt="5R Diagram"
                                 className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+1258</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+1258</div>
                     </div>
                     <span className="text-sm text-gray-600">1261 Pendukung</span>
                   </div>
                   <div className="w-[363px] bg-gray-200 rounded-full h-2 mb-4 ml-4">
-                    <div className="bg-[#66BB6A] h-2 rounded-full w-2/3"></div>
+                    <div className="bg-[#3B9E3F] h-2 rounded-full w-2/3"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 grid md:grid-cols-3 font-bold ml-8 mb-4">
                     <div>67% <br /> • Didanai</div>
                     <div className='mr-4'>Rp 900 ribu <br /> • Terkumpul</div>
                     <div className='ml-2'>Rp 2 juta <br /> • Diperlukan</div>
                   </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                 <a href="/Donasi">DONASI SEKARANG</a>
                 </button>
                 </div>
@@ -204,7 +204,7 @@ const Donasi5 = () => {
                         <h3 className="font-bold text-xl mb-2">
                           Pemulihan Terumbu Karang di Indonesia
                         </h3>
-                        <a href="/Berita" className="text-[#66BB6A] hover:underline font-bold">BACA SELENGKAPNYA</a>
+                        <a href="/Berita" className="text-[#3B9E3F] hover:underline font-bold">BACA SELENGKAPNYA</a>
                         <div className="flex items-center gap-4 text-sm text-gray-600 mb-2 mt-2">
                         <div className="flex items-center gap-1">
                             <i class="bi bi-calendar text-[#689F38]"></i>
@@ -239,7 +239,7 @@ const Donasi5 = () => {
                     />
                     <button 
                       type="submit" 
-                      className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
+                      className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
                     >
                       BERGABUNG SEKARANG
                     </button>
@@ -275,7 +275,7 @@ const Donasi5 = () => {
                     </textarea>
                     <button 
                     type="submit" 
-                    className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-medium hover:bg-green-600 transition-colors"
+                    className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
                     >
                     KIRIMKAN KOMENTAR ANDA
                     </button>

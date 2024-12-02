@@ -31,7 +31,7 @@ const Register = () => {
     setErrorMessage('');
 
     try {
-      const response = await fetch('http://localhost:5000/auth/register', {
+      const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#66BB6A] font-medium text-white py-2 rounded-md hover:bg-green-600 transition duration-300"
+              className="w-full bg-[#3B9E3F] font-medium text-white py-2 rounded-md hover:bg-green-700 transition duration-300"
             >
               Daftar Sekarang
             </button>
@@ -155,7 +155,7 @@ const Register = () => {
         <div className="mt-6 text-center">
           <p className="text-[#000000] font-medium">
             Sudah punya akun?{' '}
-            <Link to="/masuk" className="text-[#66BB6A] font-medium hover:text-green-600">
+            <Link to="/masuk" className="text-[#3B9E3F] font-medium hover:text-green-600">
               Masuk Disini
             </Link>
           </p>

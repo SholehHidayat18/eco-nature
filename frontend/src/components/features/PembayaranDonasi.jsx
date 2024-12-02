@@ -101,7 +101,7 @@ const PembayaranDonasi = () => {
         {/* Tombol Donasi */}
         <div className="flex items-center justify-center mt-6 mb-10">
           <button className="bg-green-700 text-white px-6 py-2 rounded ">
-            LANJUTKAN UNTUK BERDONASI
+            <a href="/PembayaranDonasiDetail">LANJUTKAN UNTUK BERDONASI</a>
           </button>
         </div>
       </div>

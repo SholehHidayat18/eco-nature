@@ -15,7 +15,7 @@ const NewsCard = ({ date, comments, title, imageUrl, newsLink }) => (
         <div className="px-3 pb-4">
                 <a 
                 href={newsLink}
-                className="text-[#66BB6A] hover:text-green-600 font-bold"
+                className="text-[#3B9E3F] hover:text-green-600 font-bold"
                 >
                 BACA SELENGKAPNYA
                 </a>

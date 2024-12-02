@@ -41,7 +41,7 @@ const Footer = () => {
           </div>    
         </div><br />
         <div className="container max-w-7xl mx-auto px-4">
-          <button className='bg-[#66BB6A] hover:bg-[#4CAF50] text-white px-6 py-2 rounded-md max-w-7xl mx-auto px-4 ml-12'>
+          <button className='bg-[#3B9E3F] hover:bg-[#4CAF50] text-white px-6 py-2 rounded-md max-w-7xl mx-auto px-4 ml-12'>
             <a href="/tentang-kami">
               LEBIH LANJUT
             </a>

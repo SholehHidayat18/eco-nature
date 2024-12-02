@@ -34,10 +34,10 @@ const Error = () => {
             <div className="w-full md:w-1/2 text-center md:text-left">
             <div className="space-y-4">
                 <div className="space-y-2">
-                <h1 className="text-[#66BB6A] text-4xl font-medium">Something</h1>
+                <h1 className="text-[#3B9E3F] text-4xl font-medium">Something</h1>
                 <div className="flex items-center justify-center md:justify-start space-x-2">
                     <h1 className="text-[#222222] text-4xl font-medium">Went</h1>
-                    <h1 className="text-[#66BB6A] text-4xl font-medium">Wrong!</h1>
+                    <h1 className="text-[#3B9E3F] text-4xl font-medium">Wrong!</h1>
                 </div>
                 </div>
                 
@@ -47,7 +47,7 @@ const Error = () => {
                 
                 <a 
                 href="/" 
-                className="inline-flex items-center gap-2 bg-[#66BB6A] text-white px-6 py-3 rounded-md hover:bg-green-600 transition-colors"
+                className="inline-flex items-center gap-2 bg-[#3B9E3F] text-white px-6 py-3 rounded-md hover:bg-green-700 transition-colors"
                 >
                 <i className="bi bi-house-door-fill"></i>
                 PERGI KE BERANDA

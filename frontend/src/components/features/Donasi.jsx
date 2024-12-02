@@ -51,12 +51,12 @@ const Donasi = () => {
                             alt="user"
                             className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+1258</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+1258</div>
                     </div>
                     <span className="text-sm text-gray-600">1261 Pendukung</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="bg-[#66BB6A] h-2 rounded-full w-2/3"></div>
+                    <div className="bg-[#3B9E3F] h-2 rounded-full w-2/3"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 grid md:grid-cols-3 font-bold ml-6">
                     <div>67% <br /> • Didanai</div>
@@ -64,7 +64,7 @@ const Donasi = () => {
                     <div>Rp 2 juta <br /> • Diperlukan</div>
                   </div>
                 </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                   <a href="/Donasi1">
                     DONASI SEKARANG
                   </a>
@@ -101,12 +101,12 @@ const Donasi = () => {
                             alt="user"
                             className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+1105</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+1105</div>
                     </div>
                     <span className="text-sm text-gray-600">1108 Pendukung</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="bg-[#66BB6A] h-2 rounded-full w-3/3"></div>
+                    <div className="bg-[#3B9E3F] h-2 rounded-full w-3/3"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 grid md:grid-cols-3 font-bold ml-6">
                     <div>100% <br /> • Didanai</div>
@@ -114,7 +114,7 @@ const Donasi = () => {
                     <div>Rp 1 juta <br /> • Diperlukan</div>
                   </div>
                 </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                   <a href="/Donasi2">
                     DONASI SEKARANG
                   </a>
@@ -151,12 +151,12 @@ const Donasi = () => {
                             alt="user"
                             className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+1018</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+1018</div>
                     </div>
                     <span className="text-sm text-gray-600">1021 Pendukung</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="bg-[#66BB6A] h-2 rounded-full w-3/4"></div>
+                    <div className="bg-[#3B9E3F] h-2 rounded-full w-3/4"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 grid md:grid-cols-3 font-bold ml-6">
                     <div>81% <br /> • Didanai</div>
@@ -164,7 +164,7 @@ const Donasi = () => {
                     <div>Rp 1 juta <br /> • Diperlukan</div>
                   </div>
                 </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                   <a href="/Donasi3">
                     DONASI SEKARANG
                   </a>
@@ -201,12 +201,12 @@ const Donasi = () => {
                             alt="user"
                             className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+858</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+858</div>
                     </div>
                     <span className="text-sm text-gray-600">862 Pendukung</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="bg-[#66BB6A] h-2 rounded-full w-3/3"></div>
+                    <div className="bg-[#3B9E3F] h-2 rounded-full w-3/3"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 grid md:grid-cols-3 font-bold ml-6">
                     <div>100% <br /> • Didanai</div>
@@ -214,7 +214,7 @@ const Donasi = () => {
                     <div>Rp 1 juta <br /> • Diperlukan</div>
                   </div>
                 </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                   <a href="/Donasi4">
                     DONASI SEKARANG
                   </a>
@@ -251,12 +251,12 @@ const Donasi = () => {
                             alt="user"
                             className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+1346</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+1346</div>
                     </div>
                     <span className="text-sm text-gray-600">1349 Pendukung</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div className="bg-[#66BB6A] h-2 rounded-full w-5/6"></div>
+                    <div className="bg-[#3B9E3F] h-2 rounded-full w-5/6"></div>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600 grid md:grid-cols-3 font-bold ml-6">
                     <div>95% <br /> • Didanai</div>
@@ -264,7 +264,7 @@ const Donasi = () => {
                     <div>Rp 2 juta <br /> • Diperlukan</div>
                   </div>
                 </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                   <a href="/Donasi5">
                     DONASI SEKARANG
                   </a>
@@ -301,13 +301,13 @@ const Donasi = () => {
                             alt="user"
                             className="w-full mb-4"/>
                       </div>
-                      <div className="w-12 h-12 bg-[#66BB6A] rounded-full flex items-center justify-center text-white text-sm">+918</div>
+                      <div className="w-12 h-12 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white text-sm">+918</div>
                     </div>
                     <span className="text-sm text-gray-600">921 Pendukung</span>
                   </div>
                   <div className="h-2 w-full bg-gray-200 rounded-full mb-4">
                     <div 
-                      className="h-2 bg-[#66bb6a] rounded-full" 
+                      className="h-2 bg-[#3B9E3F] rounded-full" 
                       style={{ width: '45%' }}
                     ></div>
                   </div>
@@ -317,7 +317,7 @@ const Donasi = () => {
                     <div>Rp 1 juta <br /> • Diperlukan</div>
                   </div>
                 </div>
-                <button className="w-full bg-[#66BB6A] text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">
+                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
                   <a href="/Donasi6">
                     DONASI SEKARANG
                   </a>

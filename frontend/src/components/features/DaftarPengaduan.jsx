@@ -24,7 +24,7 @@ const PengaduanCard = ({ date, title, location, imageUrl, pengaduanLink, status,
     <div className="px-4 pb-4 ml-16 mr-16">
       <a 
         href={pengaduanLink}
-        className="block w-56 bg-[#66BB6A] text-white px-8 py-3 rounded-md hover:bg-green-600 transition-colors text-center no-underline font-semibold justify-center items-center"
+        className="block w-56 bg-[#3B9E3F] text-white px-8 py-3 rounded-md hover:bg-green-700 transition-colors text-center no-underline font-semibold justify-center items-center"
       >
         LIHAT ACARA
       </a>

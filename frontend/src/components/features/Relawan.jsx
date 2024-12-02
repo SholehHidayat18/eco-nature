@@ -28,7 +28,7 @@ const Relawan = () => {
                 <h2 className="text-xl font-semibold text-[#000000]">
                     Ayo Menjadi Relawan!
                 </h2>
-                <h1 className="text-5xl font-bold text-[#66BB6A] leading-tight">
+                <h1 className="text-5xl font-bold text-[#3B9E3F] leading-tight">
                     Econature
                 </h1>
               </div>
@@ -45,8 +45,8 @@ const Relawan = () => {
                 perubahan positif untuk bumi!
               </p>
               
-              <button className="bg-[#66BB6A] hover:bg-green-600 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 inline-flex items-center group">
-                <a href="/daftar">DAFTAR</a>
+              <button className="bg-[#3B9E3F] hover:bg-green-700 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 inline-flex items-center group">
+                <a href="/Daftar-Relawan">DAFTAR</a>
               </button>
             </div>
     

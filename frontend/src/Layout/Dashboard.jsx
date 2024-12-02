@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+
 import { Routes, Route } from 'react-router-dom'
 import TentangKami from '../components/TentangKami'
 import Kontak from '../components/Kontak'
@@ -7,6 +7,14 @@ import { Berita, Berita1, Berita2, Berita3, Berita4, Berita5, Berita6, DaftarPen
 import PembayaranDonasi from '../components/features/PembayaranDonasi'
 import Home from '../components/Home'
 import Error from '../components/Error'
+import PoinRiwayat from '../components/features/PoinRiwayat'
+import PoinTukar from '../components/features/PoinTukar'
+import PoinTukarDetail from '../components/features/PoinTukarDetail'
+import PembayaranDonasiDetail from '../components/features/PembayaranDonasiDetail'
+import Profile from '../components/Profile'
+import ProfileEdit from '../components/ProfileEdit'
+import DaftarRelawan from '../components/features/DaftarRelawan'
+
 
 
 function Dashboard() {
@@ -16,6 +24,8 @@ function Dashboard() {
             <Routes>
                 <Route path="/home" element={<Home />} />
                 <Route path="/tentang-kami" element={<TentangKami />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile-edit" element={<ProfileEdit />} />
                 <Route path="/kontak" element={<Kontak />} />
                 <Route path="/error" element={<Error/>} />
                 <Route path="/Donasi" element={<Donasi />} />
@@ -27,6 +37,7 @@ function Dashboard() {
                 <Route path="/Donasi6" element={<Donasi6 />} />
                 <Route path="/DonasiPage" element={<DonasiPage />} />
                 <Route path="/PembayaranDonasi" element={<PembayaranDonasi />} />
+                <Route path="/PembayaranDonasiDetail" element={<PembayaranDonasiDetail />} />
                 <Route path="/Edukasi" element={<Edukasi />} />
                 <Route path="/Edukasi1" element={<Edukasi1 />} />
                 <Route path="/Edukasi2" element={<Edukasi2 />} />
@@ -35,6 +46,7 @@ function Dashboard() {
                 <Route path="/Edukasi5" element={<Edukasi5 />} />
                 <Route path="/Edukasi6" element={<Edukasi6 />} />
                 <Route path="/Relawan" element={<Relawan />} />
+                <Route path="/Daftar-Relawan" element={<DaftarRelawan />} />
                 <Route path="/Pengaduan" element={<Pengaduan />} />
                 <Route path="/KebijakanPrivasi" element={<KebijakanPrivasi />} />
                 <Route path="/DaftarPengaduan" element={<DaftarPengaduan />} />
@@ -45,6 +57,9 @@ function Dashboard() {
                 <Route path="/LaporanPengguna5" element={<LaporanPengguna5 />} />
                 <Route path="/LaporanPengguna6" element={<LaporanPengguna6 />} />
                 <Route path="/Poin" element={<Poin />} />
+                <Route path="/PoinRiwayat" element={<PoinRiwayat />} />
+                <Route path="/PoinTukar" element={<PoinTukar/>} />
+                <Route path="/poin-tukar-detail" element={<PoinTukarDetail />} />
                 <Route path="/Berita" element={<Berita />} />
                 <Route path="/Berita1" element={<Berita1 />} />
                 <Route path="/Berita2" element={<Berita2 />} />

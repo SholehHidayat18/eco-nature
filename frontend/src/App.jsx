@@ -12,6 +12,9 @@ import Kontak from './components/Kontak';
 import Error from './components/Error';
 import { useAuth } from './context/AuthContext';
 import Dashboard from './Layout/Dashboard';
+import AdminDashboard from './Layout/AdminDashboard';
+
+
 
 
 function AppRoutes ()  {
@@ -53,7 +56,7 @@ function AppRoutes ()  {
 
     
       <div className="min-h-screen bg-white">
-        <Navbar/>
+        {userRole !== 'admin' &&  <Navbar/>}
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/masuk" element={<Login />} />
@@ -73,7 +76,7 @@ function AppRoutes ()  {
               )}
               { userRole === 'admin' && (
                 <>
-                 
+                 <Route path="/admin/*" element={<AdminDashboard/>} />
                 </>
               )}
             </>

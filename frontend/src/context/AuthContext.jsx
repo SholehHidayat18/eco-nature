@@ -5,23 +5,26 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [userRole, setUserRole] = useState(null);
-    const [userName, setUserName] = useState(null)
-  
+    const [userName, setUserName] = useState(null);
+    
 
     const [isAuth, setAuth] = useState(false);
     useEffect(() => {
         const token = localStorage.getItem('token');
         const name = localStorage.getItem('name');
         const userRole = localStorage.getItem('role');
+        
 
         if (token && userRole && name) {
             setAuth(true);
             setUserName(name);
             setUserRole(userRole);
+            
         } else {
             setAuth(false);
             setUserName(null);
             setUserRole(null);
+            
         }
     }, []);
     const refreshAuth = () => {

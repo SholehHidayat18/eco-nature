@@ -75,7 +75,7 @@ function Kontak() {
               
               <button
                 type="submit"
-                className="w-full bg-[#66BB6A] text-white py-3 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+                className="w-full bg-[#3B9E3F] text-white py-3 px-4 rounded-lg hover:bg-green-700 transition duration-200"
               >
                 HUBUNGI KAMI
               </button>
@@ -102,7 +102,7 @@ function Kontak() {
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="font-semibold text-lg mb-4">Kontak :</h3>
                   <div className="flex items-center space-x-2">
-                    <i className="bi bi-telephone-fill text-[#66BB6A]"></i>
+                    <i className="bi bi-telephone-fill text-[#3B9E3F]"></i>
                     <span>Telepon : +62 812-3456-7890</span>
                   </div>
               </div>
@@ -112,7 +112,7 @@ function Kontak() {
                     Untuk Informasi Lebih Lanjut:
                 </h3>
                 <div className="flex items-center space-x-2">
-                    <i className="bi bi-envelope-fill text-[#66BB6A]"></i>
+                    <i className="bi bi-envelope-fill text-[#3B9E3F]"></i>
                     <span>Email: support@econature.com</span>
                 </div>
               </div>

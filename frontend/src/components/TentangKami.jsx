@@ -59,7 +59,7 @@ const TentangKami = () => {
                 <h2 className="text-2xl font-medium text-[#222222]">
                   Yuk Gabung Bersama EcoNature
                 </h2>
-                <h1 className="text-4xl font-bold text-[#66BB6A] leading-tight">
+                <h1 className="text-4xl font-bold text-[#3B9E3F] leading-tight">
                   Tentang Kami
                 </h1>
               </div>
@@ -71,7 +71,7 @@ const TentangKami = () => {
                 dan program yang mendorong tindakan nyata dalam pelestarian alam. Bersama Econature, 
                 mari #PilihLestari untuk masa depan bumi yang lebih hijau dan lestari.
               </p>
-              <button className="bg-[#66BB6A] hover:bg-green-600 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 inline-flex items-center group">
+              <button className="bg-[#3B9E3F] hover:bg-green-700 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 inline-flex items-center group">
                 HUBUNGI KAMI
               </button>
             </div>
@@ -92,7 +92,7 @@ const TentangKami = () => {
               />
             </div>
             <div className="space-y-8">
-            <h2 className="text-3xl font-bold text-[#66BB6A] mb-4">Mengenal Kami Lebih Dekat</h2>
+            <h2 className="text-3xl font-bold text-[#3B9E3F] mb-4">Mengenal Kami Lebih Dekat</h2>
             <div className="grid md:grid-cols-3 gap-6 w-[744px] h-[304px]">
               <div className="w-full bg-gray-100 p-6 rounded-lg">
                 <h3 className="text-lg font-semibold mb-2">Visi</h3>
@@ -123,13 +123,13 @@ const TentangKami = () => {
           <div className="space-y-8">
             <div>
               <h1 className="text-2xl font-medium text-[#222222] mb-2">Kenapa kamu harus</h1>
-              <h2 className="text-4xl font-bold text-[#66BB6A]">Memilih EcoNature</h2>
+              <h2 className="text-4xl font-bold text-[#3B9E3F]">Memilih EcoNature</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <i className="bi bi-people-fill text-2xl text-[#66BB6A]"></i>
+                  <i className="bi bi-people-fill text-2xl text-[#3B9E3F]"></i>
                 </div>
                 <h3 className="text-xl font-semibold">Relawan</h3>
                 <p className="text-gray-600">
@@ -139,7 +139,7 @@ const TentangKami = () => {
 
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <i className="bi bi-megaphone-fill text-2xl text-[#66BB6A]"></i>
+                  <i className="bi bi-megaphone-fill text-2xl text-[#3B9E3F]"></i>
                 </div>
                 <h3 className="text-xl font-semibold">Pengaduan</h3>
                 <p className="text-gray-600">
@@ -149,7 +149,7 @@ const TentangKami = () => {
 
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <i className="bi bi-newspaper text-2xl text-[#66BB6A]"></i>
+                  <i className="bi bi-newspaper text-2xl text-[#3B9E3F]"></i>
                 </div>
                 <h3 className="text-xl font-semibold">Informasi dan Berita Terkini</h3>
                 <p className="text-gray-600">
@@ -159,7 +159,7 @@ const TentangKami = () => {
 
               <div className="space-y-3">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <i className="bi bi-book-fill text-2xl text-[#66BB6A]"></i>
+                  <i className="bi bi-book-fill text-2xl text-[#3B9E3F]"></i>
                 </div>
                 <h3 className="text-xl font-semibold">Edukasi</h3>
                 <p className="text-gray-600">
@@ -195,7 +195,7 @@ const TentangKami = () => {
               </div>
               <button 
                 type="submit"
-                className="w-[514px] h-[70px] bg-[#66BB6A] text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200 mb-4">
+                className="w-[514px] h-[70px] bg-[#3B9E3F] text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200 mb-4">
                 <a href="/Relawan"> 
                   DAFTAR
                 </a> 
@@ -206,7 +206,7 @@ const TentangKami = () => {
 
         <div className="text-center mb-2">
           <h2 className="text-2xl font-medium text-[#222222] mb-2">Testimoni</h2>
-          <h3 className="text-4xl font-bold text-[#66BB6A]">Apa Pendapat Masyarakat Tentang Kami?</h3>
+          <h3 className="text-4xl font-bold text-[#3B9E3F]">Apa Pendapat Masyarakat Tentang Kami?</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

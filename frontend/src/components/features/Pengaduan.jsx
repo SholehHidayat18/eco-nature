@@ -177,14 +177,14 @@ const Pengaduan = () => {
                 <div className="space-y-4">
                 <button
                     type="submit"
-                    className="w-full py-3 bg-[#66BB6A] text-white rounded-md hover:bg-green-600 transition-colors font-medium"
+                    className="w-full py-3 bg-[#3B9E3F] text-white rounded-md hover:bg-green-700 transition-colors font-medium"
                 >
                     KIRIM LAPORAN
                 </button>
                 
                 <button
                     type="button"
-                    className="w-full py-3 bg-[#66BB6A] text-white rounded-md hover:bg-green-600 transition-colors font-medium"
+                    className="w-full py-3 bg-[#3B9E3F] text-white rounded-md hover:bg-green-700 transition-colors font-medium"
                 >
                     <a href="/DaftarPengaduan">
                     DAFTAR LAPORAN
