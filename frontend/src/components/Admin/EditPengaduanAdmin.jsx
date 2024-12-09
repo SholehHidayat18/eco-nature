@@ -1,12 +1,11 @@
 import React from "react";
-import {  FaBell, FaUser } from 'react-icons/fa';
 import NavbarAdmin from "../NavbarAdmin";
 
 const EditPengaduanAdmin = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center mt-16">
-        {/* Navbar */}
-        <NavbarAdmin/>  
+      {/* Navbar */}
+      <NavbarAdmin />
       <div className="bg-white max-w-lg w-full p-8 rounded-lg shadow-lg">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold">Edit Pengaduan</h1>

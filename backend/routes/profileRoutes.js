@@ -5,7 +5,7 @@ const { deleteUser, updateUser, profil, upload } = require('../controller/userCo
 
 
 router.post('/delete/:id', authenticateJWT, deleteUser);
-router.put('/update/:id', upload.single('image_path'), authenticateJWT, updateUser);
+router.put('/profil/update', upload.single('image_path'), authenticateJWT, updateUser);
 router.get('/profil', authenticateJWT, profil);
 
 module.exports = router;

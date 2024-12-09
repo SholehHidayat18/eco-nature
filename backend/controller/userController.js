@@ -61,41 +61,46 @@ const profil = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-    const { id } = req.params;
-    const { name, password, age, weight, height, phone_number, gender, kota, alamat } = req.body;
-
-    if (req.user.id !== parseInt(id)) {
-        return res.status(403).json({ message: 'Forbidden: You can only update your own profile.' });
-    }
+    const userId = req.userId;
+    const {
+        name,
+        password,
+        tanggal_lahir,
+        pekerjaan,
+        no_handphone,
+        alamat,
+        jenis_kelamin,
+    } = req.body;
 
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(userId);
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        if (phone_number && phone_number !== user.phone_number) {
-            const phoneExists = await User.findOne({ where: { phone_number } });
+        // Periksa apakah nomor handphone unik
+        if (no_handphone && no_handphone !== user.no_handphone) {
+            const phoneExists = await User.findOne({ where: { no_handphone } });
             if (phoneExists) {
-                return res.status(400).json({ message: 'Phone number already exists' });
+                return res.status(400).json({ message: 'Nomor handphone sudah digunakan' });
             }
-            user.phone_number = phone_number;
+            user.no_handphone = no_handphone;
         }
 
         if (name) user.name = name;
         if (password) user.password = await bcrypt.hash(password, 10);
-        if (age) user.age = age;
-        if (weight) user.weight = weight;
-        if (height) user.height = height;
-        if (kota) user.kota = kota;
+        if (tanggal_lahir) user.tanggal_lahir = tanggal_lahir;
+        if (pekerjaan) user.pekerjaan = pekerjaan;
         if (alamat) user.alamat = alamat;
-        if (gender) user.gender = gender;
+        if (jenis_kelamin) user.jenis_kelamin = jenis_kelamin;
+
+        // Update gambar profil jika ada
         if (req.file) {
             const newImagePath = req.file.filename;
             const dir = path.join(__dirname, '../../frontend/public/images/profile');
 
-            // Hapus gambar lama jika ada
+            // Hapus gambar lama
             if (user.image_path) {
                 const oldImagePath = path.join(dir, user.image_path);
                 if (fs.existsSync(oldImagePath)) {
@@ -103,20 +108,19 @@ const updateUser = async (req, res) => {
                 }
             }
 
-            // Tetapkan path gambar baru
             user.image_path = newImagePath;
         }
 
         await user.save();
 
-        // Destructure user data to exclude password
         const { password: _, ...userWithoutPassword } = user.toJSON();
 
-        res.status(200).json({ message: 'User updated successfully', user: userWithoutPassword });
+        res.status(200).json({ message: 'Profil berhasil diperbarui', user: userWithoutPassword });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 const deleteUser = async (req, res) => {
     const { id } = req.params;

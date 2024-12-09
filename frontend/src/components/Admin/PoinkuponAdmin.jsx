@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBell, FaUser, FaCogs, FaTachometerAlt, FaHandHoldingHeart, FaBookOpen, FaUsers, FaExclamationCircle, FaGift, FaNewspaper, FaSignOutAlt } from 'react-icons/fa';
+import { FaBell, FaUser, FaGift, } from 'react-icons/fa';
 import NavbarAdmin from '../NavbarAdmin';
 
 const PoinkuponAdmin = () => {
@@ -13,25 +13,25 @@ const PoinkuponAdmin = () => {
         <div className="flex min-h-screen">
             {/* Sidebar */}
             <div className="w-64 bg-[#3B9E3F] text-white p-6 mt-14">
-                <NavbarAdmin/>
+                <NavbarAdmin />
             </div>
 
             {/* Main Content */}
             <div className="flex-1 p-6 bg-gray-100">
                 {/* Navbar */}
                 <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-10 px-6 py-4 flex justify-between items-center">
-                <a href="/admin/Dashboard" className="font-bold text-2xl text-[#3B9E3F]">
-                    EcoNature Admin
-                </a>
-                <div className="flex items-center gap-4">
-                    <a href="#" className="text-[#3B9E3F] hover:text-gray-700">
-                    <FaBell className="text-2xl" />
+                    <a href="/admin/Dashboard" className="font-bold text-2xl text-[#3B9E3F]">
+                        EcoNature Admin
                     </a>
-                    <a href="/admin/ProfileAdmin" className="text-[#3B9E3F] hover:text-gray-700">
-                    <FaUser className="text-2xl" />
-                    </a>
-                </div>
-                </nav> 
+                    <div className="flex items-center gap-4">
+                        <button className="text-[#3B9E3F] hover:text-gray-700">
+                            <FaBell className="text-2xl" />
+                        </button>
+                        <a href="/admin/ProfileAdmin" className="text-[#3B9E3F] hover:text-gray-700">
+                            <FaUser className="text-2xl" />
+                        </a>
+                    </div>
+                </nav>
 
                 {/* Header */}
                 <div className="bg-[#3B9E3F] text-white p-6 rounded-lg shadow mb-6 mt-16">
@@ -46,15 +46,15 @@ const PoinkuponAdmin = () => {
 
                 {/* Search Bar */}
                 <div className="flex items-center mb-6">
-                    <input 
-                        type="text" 
-                        value={searchQuery} 
-                        onChange={(e) => setSearchQuery(e.target.value)} 
-                        placeholder="Cari Poin atau Kupon..." 
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Cari Poin atau Kupon..."
                         className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
                     />
-                    <button onClick={searchPoinKupon} 
-                    className="ml-4 px-6 py-2 bg-[#3B9E3F] text-white rounded-lg hover:bg-green-500">
+                    <button onClick={searchPoinKupon}
+                        className="ml-4 px-6 py-2 bg-[#3B9E3F] text-white rounded-lg hover:bg-green-500">
                         Cari
                     </button>
                 </div>
@@ -63,15 +63,15 @@ const PoinkuponAdmin = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div className="bg-white shadow rounded-lg p-6 flex items-center justify-between">
                         <div>
-                        <h5 className="text-xl font-semibold">Total Poin</h5>
-                        <p className="text-[#3B9E3F]">2,000 Poin</p>
+                            <h5 className="text-xl font-semibold">Total Poin</h5>
+                            <p className="text-[#3B9E3F]">2,000 Poin</p>
                         </div>
                         <i className="fas fa-newspaper text-4xl text-green-500"></i>
                     </div>
                     <div className="bg-white shadow rounded-lg p-6 flex items-center justify-between">
                         <div>
-                        <h5 className="text-xl font-semibold">Total Kupon</h5>
-                        <p className="text-[#3B9E3F]">3 Kupon</p>
+                            <h5 className="text-xl font-semibold">Total Kupon</h5>
+                            <p className="text-[#3B9E3F]">3 Kupon</p>
                         </div>
                         <i className="fas fa-check-circle text-4xl text-green-500"></i>
                     </div>

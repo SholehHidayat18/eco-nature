@@ -1,7 +1,7 @@
 const multer = require('multer');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const {User} = require('../associations');
+const { User } = require('../associations');
 require('dotenv').config();
 
 
@@ -10,12 +10,10 @@ const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    // ... Validation checks ...
 
-    // Hash the password
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the user
     const newUser = await User.create({
       name,
       email,
@@ -75,7 +73,7 @@ const login = async (req, res) => {
     res.status(200).json({
       message: 'Login successful.',
       token,
-        user
+      user
     });
   } catch (error) {
     console.error('Error during login:', error);
@@ -131,7 +129,40 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  // Validasi input
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
+    return res.status(400).json({ message: "Invalid email format." });
+  }
+
+  if (!newPassword || newPassword.length < 6) {
+    return res.status(400).json({ message: "Password must be at least 6 characters long." });
+  }
+
+  try {
+    // Cari pengguna berdasarkan email
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: "Email not found." });
+    }
+
+    // Hash password baru
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Perbarui password di database
+    await user.update({ password: hashedPassword });
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Error during password reset:", error);
+    res.status(500).json({ message: "An error occurred during password reset. Please try again later." });
+  }
+};
 
 
 
-module.exports = { register, login, verifyToken, cekemail };
+
+module.exports = { register, login, verifyToken, cekemail, resetPassword };

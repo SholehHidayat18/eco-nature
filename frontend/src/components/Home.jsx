@@ -1,68 +1,102 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const complaints = [
-  {
-    id: 1,
-    date: '21 Mei, 2024',
-    title: 'Sampah yang menumpuk ditepi jalan',
-    location: 'Pekanbaru, Riau, Indonesia',
-    image: '/images/e1.png',
-    slug: 'LaporanPengguna1'
-  },
-  {
-    id: 2,
-    date: '20 Maret, 2024',
-    title: 'Sampah yang menumpuk dipembuangan sampah',
-    location: 'Tegal, Jawa Tengah, Indonesia',
-    image: '/images/e2.png',
-    slug: 'LaporanPengguna3'
-  },
-  {
-    id: 3,
-    date: '21 Januari, 2024',
-    title: 'Sampah yang menumpuk ditepi sungai',
-    location: 'Kota Jambi, Jambi, Indonesia',
-    image: '/images/e3.png',
-    slug: 'LaporanPengguna6'
-  }
-];
-
-
-const news = [
-  {
-    id: 1,
-    title: 'Pemulihan Terumbu Karang di Indonesia',
-    date: '29 Juli, 2024',
-    comments: '154 Komentar',
-    image: '/images/b4.png',
-    featured: true,
-    slug: 'Berita4'
-  },
-  {
-    id: 2,
-    title: 'Gerakan Menanam 1 Juta Pohon untuk Masa Depan Hijau',
-    date: '29 September, 2024',
-    image: '/images/masadepan.png',
-    slug: 'Berita6'
-  },
-  {
-    id: 3,
-    title: 'Indonesia Catat Rekor Suhu Tertinggi Akibat Pemanasan Global',
-    date: '25 Oktober, 2024',
-    image: '/images/b3.png',
-    slug: 'Berita3'
-  }
-];
+import NewsService from "../service/NewsService";
+import PengaduanService from '../service/PengaduanService';
+import { useAuth } from '../context/AuthContext';
+import EducationService from '../service/EducationService';
 
 const donationAmounts = [
   5000, 10000, 25000, 50000, 75000, 100000, 200000
 ];
 
 const Home = () => {
-  {
-    
-  }
+  const [newsData, setNewsData] = useState([]);
+  const [educationData, setEducationData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [pengaduans, setPengaduans] = useState([]);
+  const { isAuth } = useAuth(); // State to store fetched data
+
+  useEffect(() => {
+    const fetchPengaduans = async () => {
+      try {
+        const data = await PengaduanService.getPengaduan();
+        setPengaduans(data);
+        console.log(data);
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to fetch pengaduans');
+        setIsLoading(false);
+      }
+    };
+
+    fetchPengaduans();
+  }, []);
+
+  useEffect(() => {
+    const fetchEducations = async () => {
+      try {
+        setIsLoading(true);
+        const educations = await EducationService.getEducations();
+        setEducationData(educations);
+        console.log(educations)
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEducations();
+  }, []);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        setIsLoading(true);
+        const response = await NewsService.getNewses(); // Panggil service API
+
+        setNewsData(response);
+        console.log(response)
+      } catch (err) {
+        setError(err.message || "Terjadi kesalahan saat memuat data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  const handleNavigation = (id) => {
+    if (!isAuth) {
+      // Jika belum autentikasi, arahkan ke halaman login
+      return "/masuk";
+    }
+    // Jika sudah autentikasi, arahkan ke halaman pengaduan
+    return `/Pengaduan/${id}`;
+  };
+  const handleNavigationNews = (id) => {
+    if (!isAuth) {
+      // Jika belum autentikasi, arahkan ke halaman login
+      return "/masuk";
+    }
+    // Jika sudah autentikasi, arahkan ke halaman pengaduan
+    return `/Berita/${id}`;
+  };
+  const handleNavigationEducation = (id) => {
+    if (!isAuth) {
+      // Jika belum autentikasi, arahkan ke halaman login
+      return "/masuk";
+    }
+    // Jika sudah autentikasi, arahkan ke halaman pengaduan
+    return `/Edukasi/${id}`;
+  };
+
+  const handleToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div>
       <div className="relative bg-cover bg-center h-[600px]" style={{ backgroundImage: "url('/images/bg.jpg')" }}>
@@ -73,29 +107,29 @@ const Home = () => {
           </h1>
           <h1 className="text-4xl md:text-8xl font-bold text-white mb-2">
             ECONATURE
-            </h1>
+          </h1>
           <p className="text-white text-lg mb-12">
-          Kurangi plastik, tambahkan senyuman untuk Bumi kita!
+            Kurangi plastik, tambahkan senyuman untuk Bumi kita!
           </p>
           <button className="bg-[#3B9E3F] text-white px-8 py-3 rounded-lg w-fit hover:bg-green-700">
-            <Link to="/daftar">
+            <Link to="/daftar" onClick={handleToTop}>
               MULAI
             </Link>
-        </button> 
+          </button>
         </div>
       </div>
       <section className="py-16 px-6 md:px-16 bg-white">
         <div className="max-w-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           <div className="bg-white p-8 rounded-xl shadow-lg text-center">
             <div className="w-16 h-16 mx-auto mb-4">
-            <img src="/images/daurulang.png" alt="Recycle" className="rounded-lg shadow-lg" />
+              <img src="/images/daurulang.png" alt="Recycle" className="rounded-lg shadow-lg" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Daur Ulang</h3>
           </div>
-          
+
           <div className="bg-white p-8 rounded-xl shadow-lg text-center">
             <div className="w-16 h-16 mx-auto mb-4">
-            <img src="/images/nanampohon.png" alt="Recycle" className="rounded-lg shadow-lg" />
+              <img src="/images/nanampohon.png" alt="Recycle" className="rounded-lg shadow-lg" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Penanaman Pohon</h3>
           </div>
@@ -107,15 +141,15 @@ const Home = () => {
           <div>
             <h2 className="text-3xl font-bold text-[#3B9E3F] mb-4">Tentang Kami</h2>
             <p className="text-gray-600 mb-6">
-            Selamat datang di Econature!
-            <p>Kami percaya perubahan besar dimulai dari hal kecil. Bersama-sama menciptakan dunia yang lebih bersih, mari tingkatkan kesadaran akan dampak plastik sekali pakai dan beralih ke solusi ramah lingkungan.</p><br />
-            <p>Dengan program komunitas yang seru, acara yang menarik, dan seminar yang penuh inspirasi, Anda dapat belajar sambil bersenang-senang. Bergabunglah dengan kami, dukung kampanye lingkungan, dan jadilah bagian dari perubahan positif untuk bumi kita. Bersama kita bisa, mewujudkan masa depan yang hijau untuk generasi bangsa!</p>
+              Selamat datang di Econature!
+              <p>Kami percaya perubahan besar dimulai dari hal kecil. Bersama-sama menciptakan dunia yang lebih bersih, mari tingkatkan kesadaran akan dampak plastik sekali pakai dan beralih ke solusi ramah lingkungan.</p><br />
+              <p>Dengan program komunitas yang seru, acara yang menarik, dan seminar yang penuh inspirasi, Anda dapat belajar sambil bersenang-senang. Bergabunglah dengan kami, dukung kampanye lingkungan, dan jadilah bagian dari perubahan positif untuk bumi kita. Bersama kita bisa, mewujudkan masa depan yang hijau untuk generasi bangsa!</p>
 
             </p>
             <button className="bg-[#3B9E3F] text-white px-6 py-2 rounded hover:bg-green-700">
-              <Link to="/tentang-kami"> 
+              <Link to="/tentang-kami" onClick={handleToTop}>
                 LEBIH LANJUT
-              </Link> 
+              </Link>
             </button>
           </div>
         </div>
@@ -123,9 +157,9 @@ const Home = () => {
 
       <div className="relative w-full min-h-[500px] mt-2">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/images/nanam.png" 
-            alt="Background" 
+          <img
+            src="/images/nanam.png"
+            alt="Background"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/50"></div>
@@ -159,203 +193,199 @@ const Home = () => {
               </div>
             </div>
             <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-md hover:bg-green-700 transition-colors font-medium">
-              <Link to="/donasi"> 
+              <Link to="/donasi" onClick={handleToTop}>
                 MULAI DONASI
-              </Link> 
+              </Link>
             </button>
           </div>
         </div>
       </div>
 
-        <div className="container max-w-7xl mx-auto px-4 bg-white py-16 ">
-          <h2 className="text-[#222222] font-medium text-2xl mb-2">Laporkan Keluhan anda!</h2>
-          <h1 className="text-4xl text-[#3B9E3F] font-bold">Pengaduan Econature</h1><br />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
-            {complaints.map((complaint) => (
-              <Link 
-                key={complaint.id} 
-                to={`/${complaint.slug}`}
+      <div className="container max-w-7xl mx-auto px-4 bg-white py-16 ">
+        <h2 className="text-[#222222] font-medium text-2xl mb-2">Laporkan Keluhan anda!</h2>
+        <h1 className="text-4xl text-[#3B9E3F] font-bold">Pengaduan Econature</h1><br />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+          {isLoading ? (
+            <div className="col-span-3 text-center py-6">
+              <p className="text-gray-500 text-lg">Loading...</p>
+            </div>
+          ) : error ? (
+            <div className="col-span-3 text-center py-6">
+              <p className="text-red-500 text-lg">Terjadi kesalahan: {error}</p>
+            </div>
+          ) : (
+            pengaduans.slice(0, 3).map((pengaduan) => (
+              <Link
+                key={pengaduan.id}
+                onClick={handleToTop}
+                to={handleNavigation(pengaduan.id)}
                 className="block bg-gray-100 rounded-lg overflow-hidden transform shadow-sm transition-shadow duration-300 hover:scale-105 hover:shadow-xl"
               >
                 <div className="relative h-48 bg-cover bg-center">
                   <img
-                    src={complaint.image}
-                    alt={complaint.title}
+                    src={pengaduan.imagePath ? `/images/pengaduan/${pengaduan.imagePath}` : `/images/p1.png`}
+                    alt={pengaduan.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 w-full bg-black bg-opacity-50 text-white px-4 py-2">
                     <div className="flex items-center space-x-2">
-                      <span>• {complaint.date}</span>
+                      <span>• {pengaduan.formattedDate}</span>
                     </div>
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{complaint.title}</h3>
+                  <h3 className="text-xl font-bold mb-2">{pengaduan.title}</h3>
                   <div className="space-x-2">
                     <i className="bi bi-geo-alt-fill text-[#689F38]"></i>
-                    <span className="text-gray-700">{complaint.location}</span>
+                    <span className="text-gray-700">{pengaduan.alamat}</span>
                   </div>
                 </div>
               </Link>
-            ))}
+            ))
+          )}
+        </div>
+
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-[#222222] font-medium text-2xl mb-2">Baca Informasi & Berita terbaru kami</h2>
+            <h1 className="text-4xl text-[#3B9E3F] font-bold">Informasi & Berita</h1>
           </div>
-          
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-[#222222] font-medium text-2xl mb-2">Baca Informasi & Berita terbaru kami</h2>
-              <h1 className="text-4xl text-[#3B9E3F] font-bold">Informasi & Berita</h1>
+          <button className="bg-[#3B9E3F] text-white px-6 py-2 rounded-md hover:bg-green-700">
+            <a href="/Berita">LEBIH LANJUT</a>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+          {isLoading ? (
+            <div className="col-span-2 text-center py-6">
+              <p className="text-gray-500 text-lg">Loading...</p>
             </div>
-              <button className="bg-[#3B9E3F] text-white px-6 py-2 rounded-md hover:bg-green-700">
-                <a href="/Berita"> 
-                LEBIH LANJUT
-                </a> 
-              </button>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-            <Link
-              to={`/${news[0].slug}`}
-              className="block bg-gray-100 rounded-lg overflow-hidden transform shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <div className="col-span-1 lg:col-span-1">
-                <div className="relative rounded-lg overflow-hidden shadow-md">
-                  <img
-                    src={news[0].image}
-                    alt={news[0].title}
-                    className="w-full h-[410px] object-cover"
-                  />
-                  <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4">
-                    <div className="flex items-center gap-4 text-sm">
-                      <div className='space-x-2'>
-                        <i class="bi bi-calendar text-[#689F38]"></i>
-                        <span>{news[0].date}</span>
+          ) : error ? (
+            <div className="col-span-2 text-center py-6">
+              <p className="text-red-500 text-lg">Terjadi kesalahan: {error}</p>
+            </div>
+          ) : newsData.length > 0 ? (
+            <>
+              <Link
+                onClick={handleToTop}
+                to={handleNavigationNews(newsData[0].id)}
+                className="block bg-gray-100 rounded-lg overflow-hidden transform shadow-sm transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <div className="col-span-1 lg:col-span-1">
+                  <div className="relative rounded-lg overflow-hidden shadow-md">
+                    <img
+                      src={newsData[0].imagePath ? `/images/berita/${newsData[0].imagePath}` : `/images/b1.png`}
+                      alt={newsData[0].title}
+                      className="w-full h-[410px] object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-4">
+                      <div className="flex items-center gap-4 text-sm">
+                        <div className="space-x-2">
+                          <i className="bi bi-calendar text-[#689F38]"></i>
+                          <span>{newsData[0].formattedCreatedAt}</span>
+                        </div>
+                        <div className="space-x-2">
+                          <i className="bi bi-chat-dots text-[#689F38]"></i>
+                          <span>{newsData[0].comments.length} Komentar</span>
+                        </div>
                       </div>
-                      <div className='space-x-2'>
-                        <i class="bi bi-chat-dots text-[#689F38]"></i>
-                        <span>{news[0].comments}</span>
-                      </div>
+                      <h3 className="text-2xl font-bold">{newsData[0].title}</h3>
                     </div>
-                    <h3 className="text-2xl font-bold">{news[0].title}</h3>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
 
-          <div className="col-span-1 lg:col-span-1 space-y-6">
-            {news.slice(1).map((item) => (
-              <div key={item.id} className="flex gap-4 bg-white rounded-lg overflow-hidden shadow-md">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-56 h-48 object-cover"
-                />
-                <div className="p-4 flex flex-col justify-between">
-                  <div>
-                    <div className='space-x-2'>
-                      <i class="bi bi-calendar text-[#689F38]"></i>
-                      <span className="text-sm text-gray-500">{item.date}</span>
+              <div className="col-span-1 lg:col-span-1 space-y-6">
+                {newsData.slice(1, 3).map((item) => (
+                  <div key={item.id} className="flex gap-4 bg-white rounded-lg overflow-hidden shadow-md">
+                    <img
+                      src={item.imagePath ? `/images/berita/${item.imagePath}` : `/images/b1.png`}
+                      alt={item.title}
+                      className="w-56 h-48 object-cover"
+                    />
+                    <div className="p-4 flex flex-col justify-between">
+                      <div>
+                        <div className="space-x-2">
+                          <i className="bi bi-calendar text-[#689F38]"></i>
+                          <span className="text-sm text-gray-500">{item.formattedCreatedAt}</span>
+                        </div>
+                        <h3 className="font-bold mt-2 text-2xl">{item.title}</h3>
+                      </div>
+                      <Link
+                        onClick={handleToTop}
+                        to={handleNavigationNews(item.id)}
+                        className="text-[#3B9E3F] hover:text-green-700 text-sm flex items-center gap-1 font-semibold"
+                      >
+                        BACA SELENGKAPNYA
+                      </Link>
                     </div>
-                    <h3 className="font-bold mt-2 text-2xl">{item.title}</h3>
                   </div>
-                  <Link 
-                    to={`/${item.slug}`} 
-                    className="text-[#3B9E3F] hover:text-green-700 text-sm flex items-center gap-1 font-semibold"
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="col-span-2 text-center py-6">
+              <p className="text-gray-500 text-lg">Tidak ada berita tersedia.</p>
+            </div>
+          )}
+        </div>
+
+
+      </div>
+
+      <div className="bg-black text-white py-8 flex justify-center items-center">
+        <div className="max-w-7xl mx-auto px-4 py-8 text-center">
+          <h2 className="text-4xl font-bold mb-4">KENAPA ECONATURE?</h2>
+          <p className="text-lg mb-8">
+            Bergabung dengan Econature untuk aksi nyata menjaga lingkungan, kumpulkan poin dan reward, serta nikmati acara edukatif dan acara eksklusif yang mendukung masa depan lebih hijau.
+          </p>
+          <button className="bg-[#3B9E3F] hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
+            <Link to="/daftar" onClick={handleToTop}>
+              DAFTAR
+            </Link>
+          </button>
+        </div>
+      </div><br />
+
+      <div className="max-w-7xl mx-auto p-6 mt-4 mb-16">
+        <div className="text-left mb-12">
+          <h2 className=" font-medium text-2xl mb-2 text-[#222222]" >Artikel Pengetahuan</h2>
+          <h1 className="text-4xl text-[#3B9E3F] font-bold">Edukasi Econature</h1>
+        </div>
+
+        <div className="grid w-full md:grid-cols-3 gap-12">
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : (
+            educationData.slice(0, 3).map((education) => (
+              <div
+                key={education.id}
+                className="w-full bg-white shadow-lg rounded-lg hover:scale-105 hover:shadow-xl transform duration-300"
+              >
+                <div className="h-[240px] relative">
+                  <img
+                    src={education.imagePath ? `/images/educations/${education.imagePath}` : `/images/e1.png`}
+                    alt="artikel 1"
+                    className="absolute w-full h-full object-cover bg-black bg-opacity-50 rounded-t-lg"
+                  />
+                  <div className="absolute bottom-0 left-0 w-full h-[180px] bg-gradient-to-t from-gray-800 to-transparent "></div>
+                  <span className="text-white font-semibold absolute bottom-4 left-4">{education.formattedDate}</span>
+                </div>
+                <div className='w-full flex flex-col space-y-2 py-4 px-8'>
+                  <span className='text-[24px] font-bold text-black line-clamp-1'>{education.title}</span>
+                  <Link
+                    onClick={handleToTop}
+                    to={handleNavigationEducation(education.id)}
+                    className="text-[#3B9E3F] hover:text-green-700 px-4  text-lg flex items-center gap-1 font-semibold"
                   >
                     BACA SELENGKAPNYA
                   </Link>
                 </div>
               </div>
-                ))}
-              </div>
-            </div>
-          </div>
-      
-    <div className="bg-black text-white py-8 flex justify-center items-center">
-      <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-        <h2 className="text-4xl font-bold mb-4">KENAPA ECONATURE?</h2>
-        <p className="text-lg mb-8">
-          Bergabung dengan Econature untuk aksi nyata menjaga lingkungan, kumpulkan poin dan reward, serta nikmati acara edukatif dan acara eksklusif yang mendukung masa depan lebih hijau.
-        </p>
-        <button className="bg-[#3B9E3F] hover:bg-green-700 text-white font-bold py-3 px-6 rounded">
-          <Link to="/daftar">
-            DAFTAR
-          </Link>
-        </button>
-      </div>
-      </div><br />
-
-      <div className="max-w-6xl mx-auto p-6 mt-4 mb-16">
-        <div className="text-center mb-12">
-          <h2 className="text-[#222222] font-medium text-2xl mb-2">Kumpulkan Pointnya</h2>
-          <h1 className="text-4xl text-[#3B9E3F] font-bold">Dapatkan Benefitnya</h1>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 space-y-6">
-            <div className="bg-white rounded-lg shadow-lg p-6 relative">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <i className="bi bi-droplet-fill text-[#3B9E3F] text-2xl"></i>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-green-500 mb-2">
-                    Dapatkan Poin dengan Mudah
-                  </h3>
-                  <p className="text-gray-600">
-                    Kumpulkan Poin dengan bergabung dalam keanggotaan EcoNature, ikuti komunitasnya, dan berkontribusi berbagai acara seru
-                  </p>
-                </div>
-                <div className="absolute top-4 right-4 w-8 h-8 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white">
-                  1
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-lg p-6 relative">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <i className="bi bi-cash-stack text-[#3B9E3F] text-2xl"></i>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-green-500 mb-2">
-                    Konversi Poin yang Menarik
-                  </h3>
-                  <p className="text-gray-600">
-                    Tukarkan poin yang kamu kumpulkan dengan voucher dan diskon spesial di acara tahunan kami
-                  </p>
-                </div>
-                <div className="absolute top-4 right-4 w-8 h-8 bg-[#3B9E3F] rounded-full flex items-center justify-center text-white">
-                  2
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-[#3B9E3F] rounded-lg p-6 text-white">
-            <h3 className="text-2xl font-bold mb-6">Poin Saya</h3>
-            <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="nama pengguna"
-                className="w-full p-3 rounded-md text-gray-800"
-              />
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="total poin"
-                  className="w-full p-3 rounded-md text-gray-800"
-                />
-                <i className="bi bi-coin text-yellow-400 absolute right-3 top-1/2 transform -translate-y-1/2 text-xl"></i>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <button className="bg-[#3B9E3F] hover:bg-green-700 py-2 px-2 rounded-md transition duration-300 text-sm mt-4">
-                  <a href="/PoinRiwayat">LIHAT RIWAYAT</a>
-                </button>
-                <button className="w-full bg-[#3B9E3F] text-white py-3 rounded-md hover:bg-green-700 py-2 px-2 rounded-md transition duration-300 text-sm mt-4">
-                  <a href="/PoinTukar">PENUKARAN POIN</a>
-                </button>
-              </div>
-            </div>
-          </div>
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -6,7 +6,6 @@ import DonasiAdmin from '../components/Admin/DonasiAdmin';
 import EditPengaduanAdmin from '../components/Admin/EditPengaduanAdmin';
 import EdukasiAdmin from '../components/Admin/EdukasiAdmin';
 import PengaduanAdmin from '../components/Admin/PengaduanAdmin';
-import PoinkuponAdmin from '../components/Admin/PoinkuponAdmin';
 import ProfileAdmin from '../components/Admin/ProfileAdmin';
 import TambahBeritaAdmin from '../components/Admin/TambahBeritaAdmin';
 import TambahMateriAdmin from '../components/Admin/TambahMateriAdmin';
@@ -28,7 +27,7 @@ function AdminDashboard() {
                 <Route path="/edukasi-admin" element={<EdukasiAdmin />} />
 
                 <Route path="/pengaduan-admin" element={<PengaduanAdmin />} />
-                <Route path="/poin-kupon-admin" element={<PoinkuponAdmin />} />\
+
                 <Route path="/relawan-admin" element={<RelawanAdmin />} />
                 <Route path="/profile-admin" element={<ProfileAdmin />} />
                 <Route path="tambah-berita-admin" element={<TambahBeritaAdmin />} />

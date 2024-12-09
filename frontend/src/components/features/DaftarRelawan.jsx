@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import RelawanService from "../../service/RelawanService";
+
 
 const DaftarRelawan = () => {
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
+        name: "",
+        no_handphone: "",
         email: "",
-        address: "",
+        alamat: "",
     });
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const [showStatusPopup, setShowStatusPopup] = useState(false);
@@ -24,17 +26,11 @@ const DaftarRelawan = () => {
     const handleConfirmSubmit = async () => {
         setShowConfirmPopup(false);
         try {
-            const response = await fetch("http://your-server-url/api/volunteers", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
+            const newRelawan = await RelawanService.createRelawan(formData);
 
-            if (response.ok) {
+            if (newRelawan) {
                 setIsSuccess(true);
-                setFormData({ firstName: "", lastName: "", email: "", address: "" });
+                setFormData({ name: "", no_handphone: "", email: "", alamat: "" });
             } else {
                 setIsSuccess(false);
             }
@@ -46,6 +42,7 @@ const DaftarRelawan = () => {
         }
     };
 
+
     const handleClosePopup = () => {
         setShowConfirmPopup(false);
         setShowStatusPopup(false);
@@ -53,8 +50,8 @@ const DaftarRelawan = () => {
 
     return (
         <div className="min-h-screen bg-white">
-            <div className="relative h-96 overflow-hidden">
-                <img 
+            <div className="relative h-96 overflow-hidden mb-16">
+                <img
                     src="/images/header.jpg"
                     alt="Waterfall"
                     className="w-full h-full object-cover"
@@ -71,79 +68,79 @@ const DaftarRelawan = () => {
                 </div>
             </div>
 
-                <div className="container mx-auto px-4 mt-16 max-w-6xl">
-                    <h2 className="text-2xl font-bold text-center mb-2 text-[#000000]">
-                        Daftar Untuk Relawan
-                    </h2>
-                    <p className="text-center text-[#000000] mb-6">
-                        Jadilah Relawan Dari EcoNature
-                    </p>
-                    <form onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-600">
-                                    Nama Depan
-                                </label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    placeholder="Masukkan nama depan"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-gray-600">
-                                    Nama Belakang
-                                </label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    placeholder="Masukkan nama belakang"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-4">
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
-                                Alamat Email
+            <div className="container mx-auto px-4 max-w-6xl">
+                <h2 className="text-2xl font-bold text-center mb-2 text-[#000000]">
+                    Daftar Untuk Relawan
+                </h2>
+                <p className="text-center text-[#000000] mb-6">
+                    Jadilah Relawan Dari EcoNature
+                </p>
+                <form onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-600">
+                                Nama Lengkap
                             </label>
                             <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="Masukkan alamat email"
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Masukkan nama lengkap"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
-                                value={formData.email}
+                                value={formData.name}
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="mt-4">
-                            <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-600">
-                                Alamat
+                        <div>
+                            <label htmlFor="no_handphone" className="block mb-2 text-sm font-medium text-gray-600">
+                                Nomor Handphone
                             </label>
-                            <textarea
-                                id="address"
-                                name="address"
-                                placeholder="Masukkan alamat"
+                            <input
+                                type="number"
+                                id="no_handphone"
+                                name="no_handphone"
+                                placeholder="Masukkan nomor handphone"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
-                                value={formData.address}
+                                value={formData.no_handphone}
                                 onChange={handleChange}
-                            ></textarea>
+                            />
                         </div>
-                        <button
-                            type="submit"
-                            className="w-full mt-6 mb-12 bg-[#3B9E3F] text-white py-2 px-4 rounded-lg hover:bg-green-700 transition"
-                        >
-                            Daftar Sekarang
-                        </button>
-                    </form>
-                </div><br />
+                    </div>
+                    <div className="mt-4">
+                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
+                            Alamat Email
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Masukkan alamat email"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="mt-4">
+                        <label htmlFor="alamat" className="block mb-2 text-sm font-medium text-gray-600">
+                            Alamat
+                        </label>
+                        <textarea
+                            id="alamat"
+                            name="alamat"
+                            placeholder="Masukkan alamat"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-green-300 focus:outline-none"
+                            value={formData.alamat}
+                            onChange={handleChange}
+                        ></textarea>
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full mt-6 mb-20 bg-[#3B9E3F] text-white py-2 px-4 rounded-lg hover:bg-green-700 transition"
+                    >
+                        Daftar Sekarang
+                    </button>
+                </form>
+            </div>
 
             {showConfirmPopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -155,13 +152,13 @@ const DaftarRelawan = () => {
                             <div className="flex justify-center gap-4">
                                 <button
                                     onClick={handleClosePopup}
-                                    className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                                    className="px-6 py-2 bg-[#BD081B] text-white rounded-lg hover:bg-red-700 transition-colors"
                                 >
                                     TIDAK
                                 </button>
                                 <button
                                     onClick={handleConfirmSubmit}
-                                    className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700 transition-colors"
+                                    className="px-6 py-2 bg-[#3B9E3F] text-white rounded-lg hover:bg-green-700 transition-colors"
                                 >
                                     YA
                                 </button>
@@ -175,16 +172,16 @@ const DaftarRelawan = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 shadow-xl relative">
                         <div className="absolute inset-0 bg-white rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]"></div>
-                        
+
                         <div className="relative text-center">
                             <h2 className="text-2xl font-bold mb-2">Daftar untuk Relawan</h2>
                             <p className="text-gray-600 mb-4">Jadilah Relawan EcoNature</p>
-                            
+
                             <div className="mb-4">
                                 {isSuccess ? (
                                     <>
                                         <h3 className="text-xl font-bold flex items-center justify-center gap-2">
-                                            Pendaftaran Anda Telah Berhasil 
+                                            Pendaftaran Anda Telah Berhasil
                                             <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                             </svg>
@@ -196,7 +193,7 @@ const DaftarRelawan = () => {
                                 ) : (
                                     <>
                                         <h3 className="text-xl font-bold flex items-center justify-center gap-2">
-                                            Pendaftaran Anda Gagal 
+                                            Pendaftaran Anda Gagal
                                             <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
@@ -210,9 +207,8 @@ const DaftarRelawan = () => {
 
                             <button
                                 onClick={handleClosePopup}
-                                className={`px-6 py-2 text-white rounded-lg transition-colors ${
-                                    isSuccess ? 'bg-green-500 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'
-                                }`}
+                                className={`px-6 py-2 text-white rounded-lg transition-colors ${isSuccess ? 'bg-green-500 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'
+                                    }`}
                             >
                                 Tutup
                             </button>

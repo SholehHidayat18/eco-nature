@@ -1,89 +1,129 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const Reset = () => {
-    const [email, setEmail] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-  
-    // Fungsi untuk menangani form submit
-    const handleResetPassword = async (e) => {
-      e.preventDefault();
-  
-      try {
-        // Mengirimkan request ke backend
-        const response = await fetch('http://localhost:5000/auth/reset-password', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, newPassword }),
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          // Menampilkan pesan sukses jika berhasil
-          setSuccessMessage('Password berhasil diperbarui');
-          setErrorMessage('');
-        } else {
-          // Menampilkan pesan error jika ada masalah
-          setErrorMessage(data.error || 'Gagal memperbarui password');
-          setSuccessMessage('');
-        }
-      } catch (error) {
-        // Menangani error jaringan
-        setErrorMessage('Terjadi kesalahan, coba lagi nanti');
-        setSuccessMessage('');
-      }
-    };
-  
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h2 className="text-2xl font-semibold text-center mb-6">Reset Password</h2>
-          <form onSubmit={handleResetPassword} className="space-y-4">
+const ResetForm = () => {
+  const [email, setEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match.');
+      setMessage('');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/reset-password', {
+        email,
+        newPassword,
+      });
+
+      setMessage(response.data.message);
+      setError('');
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred.');
+      setMessage('');
+    }
+  };
+
+  return (
+    <div
+      className="relative min-h-screen flex items-center justify-center bg-cover bg-center mt-8"
+      style={{ backgroundImage: "url('/images/bg.jpg')" }}
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div className="relative bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-2 text-[#000000]">
+          Reset Kata Sandi Anda
+        </h2>
+        <p className="text-center text-[#000000] mb-6">
+          Dapatkan Dukungan, Pelajari Lebih Dalam Menuju Lingkungan Bersih
+        </p>
+
+        {message && (
+          <p className="text-green-500 text-center mb-4 font-medium">{message}</p>
+        )}
+        {error && (
+          <p className="text-red-500 text-center mb-4 font-medium">{error}</p>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Masukkan email Anda"
-              />
+              <label
+                className="block text-[#000000] mb-2 font-medium"
+                htmlFor="email"
+              >
+                Alamat Email
+              </label>
+              <div className="flex gap-3">
+                <input
+                  id="email"
+                  type="email"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Masukkan alamat email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
-  
+
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">Password Baru</label>
+              <label
+                className="block text-[#000000] mb-2 font-medium"
+                htmlFor="newPassword"
+              >
+                Kata Sandi Baru
+              </label>
               <input
-                type="password"
                 id="newPassword"
+                type="password"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Masukkan kata sandi baru"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                required
-                className="mt-2 p-3 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Masukkan password baru"
               />
             </div>
-  
-            {/* Menampilkan pesan kesalahan atau sukses */}
-            {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
-            {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
-  
+
+            <div>
+              <label
+                className="block text-[#000000] mb-2 font-medium"
+                htmlFor="confirmPassword"
+              >
+                Konfirmasi Kata Sandi Baru
+              </label>
+              <input
+                id="confirmPassword"
+                type="password"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Masukkan ulang kata sandi baru"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+
             <button
               type="submit"
-              className="w-full bg-[#3B9E3F] text-white py-3 rounded-md hover:bg-green-700 transition"
+              className="w-full bg-[#3B9E3F] font-medium text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
-              Reset Password
+              Ganti Kata Sandi
             </button>
-          </form>
+          </div>
+        </form>
+        <div className="mt-6 text-center space-y-2">
+          <p className="text-[#3B9E3F] font-medium hover:text-green-600">
+            <Link to="/masuk">Kembali ke halaman masuk?</Link>
+          </p>
         </div>
       </div>
-    );
-  };
-  
+    </div>
+  );
+};
 
-export default Reset;
+export default ResetForm;

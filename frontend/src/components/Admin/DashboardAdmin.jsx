@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTachometerAlt, FaHandHoldingHeart, FaUsers, FaExclamationCircle, FaBell, FaUser, FaTimes } from 'react-icons/fa';
-import { useAuth } from "../../context/AuthContext";
+
 import NavbarAdmin from "../NavbarAdmin";
+import PaymentService from '../../service/PaymentService';
+import RelawanService from '../../service/RelawanService';
+import PengaduanService from '../../service/PengaduanService';
 
 const Notification = ({ onClose }) => {
   return (
@@ -21,23 +24,94 @@ const Notification = ({ onClose }) => {
 };
 
 const DashboardAdmin = () => {
-  
-  const [showNotification, setShowNotification] = useState(false);
+  const [relawanData, setRelawanData] = useState([]);
+  const [pengaduans, setPengaduans] = useState([]);
+  const [donationData, setDonationData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const toggleNotification = () => {
-    setShowNotification(!showNotification);
-  };
+  useEffect(() => {
+    const fetchPengaduans = async () => {
+      try {
+        const data = await PengaduanService.getPengaduan();
+        setPengaduans(data);
+        setIsLoading(false);
+      } catch (err) {
+        setError('Failed to fetch pengaduans');
+        setIsLoading(false);
+      }
+    };
+
+    fetchPengaduans();
+  }, []);
+  useEffect(() => {
+    const fetchRelawans = async () => {
+      try {
+        setIsLoading(true);
+        const data = await RelawanService.getRelawans();
+        setRelawanData(data);
+        setIsLoading(false);
+      } catch (err) {
+        setError('Gagal memuat data relawan');
+        setIsLoading(false);
+      }
+    };
+
+    fetchRelawans();
+  }, []);
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        setIsLoading(true);
+        const response = await PaymentService.getPayments();
+        setDonationData(response);
+      } catch (err) {
+        setError('Terjadi kesalahan saat memuat data donasi.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPayments();
+  }, []);
+
+  const pengaduansDiproses = pengaduans.filter(pengaduan => pengaduan.status === 'Diproses');
+
+  const totalDonasi = donationData
+    .filter((payment) => payment.status === 'Diterima')
+    .reduce((total, payment) => total + payment.total, 0);
+
+  const [showNotification, setShowNotification] = useState(false);
 
   const closeNotification = () => {
     setShowNotification(false);
   };
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <p className="text-lg text-[#3B9E3F]">Memuat data...</p>
+          <div className="spinner-border animate-spin border-4 border-t-4 border-[#3B9E3F] rounded-full w-12 h-12 mx-auto my-4"></div>
+        </div>
+      </div>
+    );
+  }
 
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-center">
+          <p className="text-lg text-red-500">{error}</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <div className="w-64 bg-[#3B9E3F] text-white p-6 mt-14">
-                <NavbarAdmin/>
-            </div>
+        <NavbarAdmin />
+      </div>
       {/* Main Content */}
       <div className="flex-1 p-6 bg-gray-100">
         {/* Navbar */}
@@ -45,15 +119,7 @@ const DashboardAdmin = () => {
           <a href="/admin/Dashboard" className="font-bold text-2xl text-[#3B9E3F]">
             EcoNature Admin
           </a>
-          <div className="flex items-center gap-4">
-            <a href="#" className="text-[#3B9E3F] hover:text-gray-700" onClick={toggleNotification}>
-              <FaBell className="text-2xl" />
-            </a>
-            <a href="/admin/ProfileAdmin" className="text-[#3B9E3F] hover:text-gray-700">
-              <FaUser className="text-2xl" />
-            </a>
-          </div>
-        </nav> 
+        </nav>
 
         {/* Header */}
         <header className="bg-[#3B9E3F] text-white p-6 rounded-lg shadow mb-6 mt-16">
@@ -71,7 +137,7 @@ const DashboardAdmin = () => {
           <div className="bg-blue-500 text-white rounded-lg p-4 h-[150px] shadow-md hover:scale-105 transition-transform flex items-center justify-between">
             <div>
               <h5 className="text-lg font-semibold">Total Donasi</h5>
-              <p className="text-xl">Rp 1.200.000</p>
+              <p className="text-xl">Rp {totalDonasi.toLocaleString()}</p>
             </div>
             <div className="flex items-center justify-center h-full">
               <FaHandHoldingHeart className="text-7xl" />
@@ -81,7 +147,7 @@ const DashboardAdmin = () => {
           <div className="bg-teal-500 text-white rounded-lg p-4 h-[150px] shadow-md hover:scale-105 transition-transform flex items-center justify-between">
             <div>
               <h5 className="text-lg font-semibold">Donatur Terdaftar</h5>
-              <p className="text-xl">150 orang</p>
+              <p className="text-xl">{donationData.length} orang</p>
             </div>
             <div className="flex items-center justify-center h-full">
               <FaUsers className="text-7xl" />
@@ -91,7 +157,7 @@ const DashboardAdmin = () => {
           <div className="bg-green-500 text-white rounded-lg p-4 h-[150px] shadow-md hover:scale-105 transition-transform flex items-center justify-between">
             <div>
               <h5 className="text-lg font-semibold">Relawan Terdaftar</h5>
-              <p className="text-xl">50 orang</p>
+              <p className="text-xl">{relawanData.length} orang</p>
             </div>
             <div>
               <i className="bi bi-person-check-fill text-7xl"></i>
@@ -101,15 +167,15 @@ const DashboardAdmin = () => {
           <div className="bg-yellow-500 text-white rounded-lg p-4 h-[150px] shadow-md hover:scale-105 transition-transform flex items-center justify-between">
             <div>
               <h5 className="text-lg font-semibold">Pengaduan</h5>
-              <p className="text-xl">10 pengaduan baru</p>
-            </div>  
+              <p className="text-xl">{pengaduansDiproses.length} pengaduan baru</p>
+            </div>
             <div>
-              <FaExclamationCircle className="text-7xl" />  
+              <FaExclamationCircle className="text-7xl" />
             </div>
           </div>
         </div>
         {showNotification && <Notification onClose={closeNotification} />}
-      </div> 
+      </div>
     </div>
   );
 };

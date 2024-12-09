@@ -6,18 +6,32 @@ const Footer = () => {
       <footer className="bg-black text-white py-8">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-3 gap-32">
           <div className='ml-12'>
-            <h3 className="text-[#9CCC65] font-semibold mb-4">Tentang Econature</h3>
+            <h3 className="text-[#3B9E3F] font-semibold mb-4">Tentang Econature</h3>
             <p className="text-[#FFFFFF]">
             Mewujudkan masa depan hijau bersama. Dukung kampanye ramah lingkungan dan mulailah langkah kecil menuju bumi yang lebih bersih dan berkelanjutan!
             </p>
           </div>
           <div className='ml-24'>
-            <h3 className="text-[#9CCC65] font-semibold mb-4">Hubungi Kami</h3>
-            <p className="text-[#FFFFFF]">Email: support@econature.com</p>
-            <p className="text-[#FFFFFF]">Telepon: +62 812-3456-7890</p>
+            <h3 className="text-[#3B9E3F] font-semibold mb-4">Hubungi Kami</h3>
+            <p>
+              Email: <Link 
+                to="https://mail.google.com/mail/u/0/?view=cm&tf=1&fs=1&to=support@econature.com" 
+                className="text-[#FFFFFF] hover:text-[#ACEB98] transition-colors"
+              >
+                support@econature.com
+              </Link>
+            </p>
+            <p>
+              Telepon: <Link 
+                to={`tel:+62812345678`} 
+                className="text-[#FFFFFF] hover:text-[#ACEB98] transition-colors"
+              >
+                +62 812-3456-7890
+              </Link>
+            </p>
           </div>
           <div className='ml-32'>
-            <h3 className="font-semibold mb-4 text-[#9CCC65]">Ikuti Kami</h3>
+            <h3 className="font-semibold mb-4 text-[#3B9E3F]">Ikuti Kami</h3>
               <div className="space-y-4">
                 <p>
                   <Link to="https://instagram.com/econatureofficial" className="flex items-center space-x-3 hover:text-[#ACEB98] transition-colors">
@@ -32,7 +46,7 @@ const Footer = () => {
                 </Link>
                 </p>
                 <p>
-                  <Link to="https://instagram.com/econatureofficial" className="flex items-center space-x-3 hover:text-[#ACEB98] transition-colors">
+                  <Link to="https://www.youtube.com/" className="flex items-center space-x-3 hover:text-[#ACEB98] transition-colors">
                     <i className="bi bi-youtube">{" "}</i>
                     <span>EconatureChannel</span>
                   </Link>
@@ -41,7 +55,7 @@ const Footer = () => {
           </div>    
         </div><br />
         <div className="container max-w-7xl mx-auto px-4">
-          <button className='bg-[#3B9E3F] hover:bg-[#4CAF50] text-white px-6 py-2 rounded-md max-w-7xl mx-auto px-4 ml-12'>
+          <button className='bg-[#3B9E3F] hover:bg-green-700 text-white px-6 py-2 rounded-md max-w-7xl mx-auto px-4 ml-12'>
             <a href="/tentang-kami">
               LEBIH LANJUT
             </a>

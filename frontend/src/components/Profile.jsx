@@ -1,35 +1,71 @@
-import React, { useState } from 'react';
-import { BiCheckCircle } from 'react-icons/bi';
-import { useAuth } from '../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
-
-
+import React, { useEffect, useState } from "react";
+import { BiCheckCircle } from "react-icons/bi";
+import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import ProfileService from "../service/profileService";
 
 const Profile = () => {
+    const [userData, setUserData] = useState(null);
     const [showExitPopup, setShowExitPopup] = useState(false);
-    const [user, setUser] = useState(null);
-    
-    const { isAuth, userId ,userName, logout } = useAuth();
+
+    const { logout } = useAuth();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true); // Untuk loading state
+    const [error, setError] = useState(null); // Untuk menangani error
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                setIsLoading(true);
+                const user = await ProfileService.getProfile(); // Panggil service API
+                setUserData(user);
+                console.log(user);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     const handleLogout = () => {
         logout();
-        setUser(null);
-        
+        navigate("/login");
     };
-
-const handleNavigateToProfile = () => {
-    navigate('/Profile');
-}
 
     const handleClosePopup = () => setShowExitPopup(false);
     const handleShowPopup = () => setShowExitPopup(true);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (!userData) {
+        return <div>Data pengguna tidak ditemukan.</div>;
+    }
+
+    const {
+        name,
+        jenis_kelamin,
+        tanggal_lahir,
+        pekerjaan,
+        no_handphone,
+        email,
+        alamat,
+        image_path,
+    } = userData;
 
     return (
         <div className="min-h-screen bg-white">
             {/* Bagian Header */}
             <div className="relative h-96 overflow-hidden mb-10">
-                <img 
+                <img
                     src="/images/header.jpg"
                     alt="Waterfall"
                     className="w-full h-full object-cover"
@@ -53,26 +89,16 @@ const handleNavigateToProfile = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <div className="w-20 h-20 rounded-full overflow-hidden mr-6">
-                                <img src="/images/us.png" alt="Profile" className="w-full h-full object-cover" />
+                                <img
+                                    src={image_path ? `/images/profile/${image_path}` : `/default_profile.jpg`}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                             <div>
-                                { isAuth || user ? (
-                                    <>
-                                    <p className="flex item-center text-2xl font-bold text-[#3B9E3F]"
-                                    onClick={handleNavigateToProfile}>
-                                        {userName}
-                                    </p>
-                                    </>
-                                ) : (
-                                    <>
-                                    <p className="text-center">silahkan login</p>
-                                    </>
-                                )
-
-                                }
-                                    <p className="text-gray-500">1</p>
-                                   
-                                
+                                <p className="text-2xl font-bold text-[#3B9E3F]">
+                                    {name || "Nama tidak tersedia"}
+                                </p>
                             </div>
                         </div>
                         <button className="bg-[#3B9E3F] w-[300px] text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
@@ -83,45 +109,78 @@ const handleNavigateToProfile = () => {
 
                 {/* Form Input */}
                 <div className="max-w-6xl mx-auto p-6">
-                <div className="flex items-center mb-4">
-                <i className="bi bi-person-fill text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Nama Lengkap</span>
-                </div>
-                <input type="text" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <div className="flex items-center mb-4 mt-4">
-                <i className="bi bi-gender-ambiguous text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Jenis Kelamin</span>
-                </div>
-                <input type="text" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <div className="flex items-center mb-4 mt-4">
-                <i className="bi bi-calendar-date text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Tanggal Lahir</span>
-                </div>
-                <input type="text" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <div className="flex items-center mb-4 mt-4">
-                <i className="bi bi-briefcase text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Pekerjaan</span>
-                </div>
-                <input type="text" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <div className="flex items-center mb-4 mt-4">
-                <i className="bi bi-envelope text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Email</span>
-                </div>
-                <input type="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <div className="flex items-center mb-4 mt-4">
-                <i className="bi bi-phone text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Nomor Handphone</span>
-                </div>
-                <input type="tel" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500" />
-                <div className="flex items-center mb-4 mt-4">
-                <i className="bi bi-map text-gray-500 mr-2"></i>
-                <span className="text-gray-700">Alamat</span>
-                </div>
+                    <div className="flex items-center mb-4">
+                        <span className="text-gray-700">Nama Lengkap</span>
+                    </div>
+                    <input
+                        type="text"
+                        value={name || ""}
+                        readOnly
+                        className="w-full bg-gray-100 px-3 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    />
+                    <div className="flex items-center mb-4 mt-4">
+                        <span className="text-gray-700">Jenis Kelamin</span>
+                    </div>
+                    <input
+                        type="text"
+                        value={jenis_kelamin || "Belum diisi"}
+                        readOnly
+                        className="w-full bg-gray-100 px-3 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    />
+                    <div className="flex items-center mb-4 mt-4">
+                        <span className="text-gray-700">Tanggal Lahir</span>
+                    </div>
+                    <input
+                        type="text"
+                        value={
+                            tanggal_lahir
+                                ? new Date(tanggal_lahir).toLocaleDateString("id-ID", {
+                                    day: "2-digit",
+                                    month: "long",
+                                    year: "numeric",
+                                })
+                                : "Belum diisi"
+                        }
+                        readOnly
+                        className="w-full px-3 bg-gray-100 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    />
+                    <div className="flex items-center mb-4 mt-4">
+                        <span className="text-gray-700">Pekerjaan</span>
+                    </div>
+                    <input
+                        type="text"
+                        value={pekerjaan || "Belum diisi"}
+                        readOnly
+                        className="w-full px-3 bg-gray-100 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    />
+                    <div className="flex items-center mb-4 mt-4">
+                        <span className="text-gray-700">Email</span>
+                    </div>
+                    <input
+                        type="email"
+                        value={email || ""}
+                        readOnly
+                        className="w-full px-3 bg-gray-100 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    />
+                    <div className="flex items-center mb-4 mt-4">
+                        <span className="text-gray-700">Nomor Handphone</span>
+                    </div>
+                    <input
+                        type="tel"
+                        value={no_handphone || "Belum diisi"}
+                        readOnly
+                        className="w-full bg-gray-100 px-3 py-2 rounded-md border border-gray-300 focus:outline-none"
+                    />
+                    <div className="flex items-center mb-4 mt-4">
+                        <span className="text-gray-700">Alamat</span>
+                    </div>
                     <textarea
-                    className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none h-24"
-                    rows={4}
+                        value={alamat || "Belum diisi"}
+                        readOnly
+                        className="w-full bg-gray-100 px-3 py-2 rounded-md border border-gray-300 focus:outline-none resize-none h-24"
+                        rows={4}
                     ></textarea>
-            </div>
+                </div>
 
                 {/* Tombol Navigasi */}
                 <div className="max-w-4xl mx-auto p-6 flex justify-between">
@@ -141,7 +200,7 @@ const handleNavigateToProfile = () => {
                     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                         <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 shadow-md">
                             <div className="text-center">
-                                <BiCheckCircle className="text-[#3B9E3F] text-6xl mb-4" />
+                                <BiCheckCircle className="text-[#3B9E3F] text-6xl mb-4 items-center justify-center" />
                                 <h2 className="text-2xl font-bold mb-2">Apakah anda yakin untuk Keluar?</h2>
                                 <div className="flex justify-center mt-6">
                                     <button

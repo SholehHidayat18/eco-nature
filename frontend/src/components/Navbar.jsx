@@ -1,55 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const { isAuth, userName, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleNavigateToProfile = () => {
-    navigate('/profile');
-  };
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-
-  //   if (token) {
-  //     // Mengambil informasi pengguna setelah login menggunakan fetch
-  //     fetch('http://localhost:5000/auth/me', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`,
-  //       }, 
-  //     })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setUser(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Gagal mendapatkan informasi pengguna:', error);
-  //     });
-  //   }
-  // }, []); // Dependensi kosong berarti hanya dijalankan sekali saat komponen pertama kali dimuat
+  const dropdownRef = useRef(null); // Referensi untuk dropdown
+  const { isAuth, userName } = useAuth();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleLogout = () => {
-    //localStorage.removeItem('token');
-    logout()
-    setUser(null); // Mengatur ulang state pengguna
+  const handleClose = () => {
+    setIsDropdownOpen(false);
+    window.scrollTo(0, 0);
   };
+
+  // Tutup dropdown ketika klik di luar elemen dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-[#1B5E20] px-4 py-4 flex justify-between items-center z-50">
+    <nav className="fixed top-0 left-0 w-full bg-[#1B5E20] px-4 py-4 flex justify-between items-center z-[5000]">
       <div className="flex items-center ml-5">
         <Link to="/" className="text-white no-underline text-2xl font-bold">
           econature.
@@ -63,32 +50,33 @@ const Navbar = () => {
         <ul className="flex list-none gap-2 m-0 p-0">
           <li className="border-l border-white h-5 mx-2.5"></li>
           <li>
-            <Link to={isAuth ? '/home' : '/'} className="hover:text-gray-300">
+            <Link to={isAuth ? '/home' : '/'} onClick={handleClose} className="hover:text-gray-300">
               BERANDA
             </Link>
           </li>
           <li className="border-l border-white h-5 mx-2.5"></li>
           <li>
-            <Link to="/tentang-kami" className="hover:text-gray-300">
+            <Link to="/tentang-kami" onClick={handleClose} className="hover:text-gray-300">
               TENTANG KAMI
             </Link>
           </li>
           <li className="border-l border-white h-5 mx-2.5"></li>
           <li>
-            <Link to="/kontak" className="hover:text-gray-300">
+            <Link to="/kontak" onClick={handleClose} className="hover:text-gray-300">
               KONTAK
             </Link>
           </li>
           <li className="border-l border-white h-5 mx-2.5"></li>
           {isAuth && (
-            <li className="relative">
+            <li className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleDropdown}
                 className="flex items-center hover:text-gray-300 focus:outline-none"
               >
                 FITUR
                 <svg
-                  className={`ml-1 h-4 w-4 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+                  className={`ml-1 h-4 w-4 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -106,6 +94,7 @@ const Navbar = () => {
                   <div className="py-1" role="menu">
                     <Link
                       to="/Donasi"
+                      onClick={handleClose}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >
@@ -113,6 +102,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/Edukasi"
+                      onClick={handleClose}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >
@@ -120,6 +110,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/Relawan"
+                      onClick={handleClose}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >
@@ -127,20 +118,15 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/Pengaduan"
+                      onClick={handleClose}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >
                       Pengaduan
                     </Link>
                     <Link
-                      to="/Poin"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      role="menuitem"
-                    >
-                      Poin
-                    </Link>
-                    <Link
                       to="/Berita"
+                      onClick={handleClose}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >
@@ -153,25 +139,22 @@ const Navbar = () => {
           )}
 
           <li className="border-l border-white h-5 mx-2.5"></li>
-          {isAuth || user ? (
-            <>
-              <li
-                className="flex items-center text-white cursor-pointer hover:underline text-lg font-medium"
-                onClick={handleNavigateToProfile}
+          {isAuth ? (
+            <Link
+              to="/profile"
+              className="flex items-center text-white cursor-pointer hover:underline text-lg font-medium"
+              onClick={handleClose}
+            >
+              <span>{userName}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 ml-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
-                <span>{userName}</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 ml-2"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18a6 6 0 1116 0H2z"
-                  />
-                </svg>
-              </li>
-            </>
+                <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18a6 6 0 1116 0H2z" />
+              </svg>
+            </Link>
           ) : (
             <>
               <li>

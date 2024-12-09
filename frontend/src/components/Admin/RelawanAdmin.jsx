@@ -1,21 +1,65 @@
-import React, { useState } from 'react';
-import { FaBell, FaUser, FaTachometerAlt, FaHandHoldingHeart, FaBookOpen, FaUsers, FaExclamationCircle, FaGift, FaNewspaper, FaSignOutAlt } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaBell, FaUser, FaUsers } from 'react-icons/fa';
 import NavbarAdmin from '../NavbarAdmin';
+import RelawanService from '../../service/RelawanService';
+import Swal from 'sweetalert2';
 
 const RelawanAdmin = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const relawanData = [
-    { id: 1, name: 'Jane Doe', email: 'jane.doe@example.com', phone: '+628123456789', joined: '12-Nov-2024' },
-    { id: 2, name: 'John Smith', email: 'john.smith@example.com', phone: '+628987654321', joined: '15-Nov-2024' },
-  ];
+  const [relawanData, setRelawanData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchRelawans = async () => {
+      try {
+        setLoading(true);
+        const data = await RelawanService.getRelawans();
+        setRelawanData(data);
+        setLoading(false);
+      } catch (err) {
+        setError('Gagal memuat data relawan');
+        setLoading(false);
+      }
+    };
+
+    fetchRelawans();
+  }, []);
 
   const handleSearch = () => {
     alert(`Searching for: ${searchQuery}`);
   };
 
-  const handleDelete = (id) => {
-    alert(`Delete relawan with id: ${id}`);
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: 'Yakin ingin menghapus relawan ini?',
+      text: 'Tindakan ini tidak dapat diurungkan!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya, hapus!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await RelawanService.deleteRelawans(id);
+          Swal.fire('Dihapus!', 'Relawan berhasil dihapus.', 'success');
+          const data = await RelawanService.getRelawans();
+          setRelawanData(data);
+        } catch (err) {
+          Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
+        }
+      }
+    });
   };
+
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center min-h-screen text-red-500">{error}</div>;
+  }
 
   return (
     <div className="flex min-h-screen">
@@ -32,9 +76,9 @@ const RelawanAdmin = () => {
             EcoNature Admin
           </a>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-[#3B9E3F] hover:text-gray-700">
+            <button href="#" className="text-[#3B9E3F] hover:text-gray-700">
               <FaBell className="text-2xl" />
-            </a>
+            </button>
             <a href="/admin/ProfileAdmin" className="text-[#3B9E3F] hover:text-gray-700">
               <FaUser className="text-2xl" />
             </a>
@@ -75,7 +119,7 @@ const RelawanAdmin = () => {
           <div className="bg-white p-6 rounded-lg shadow-md flex items-center w-1/3 mr-4">
             <div>
               <h5 className="text-xl font-semibold">Total Relawan</h5>
-              <p className="text-[#3B9E3F]">120 Relawan</p>
+              <p className="text-[#3B9E3F]">{relawanData.length} Relawan</p>
             </div>
             <i className="fas fa-book text-4xl text-green-600 ml-4"></i>
           </div>
@@ -100,10 +144,9 @@ const RelawanAdmin = () => {
                   <td className="px-4 py-2 border text-center">{index + 1}</td>
                   <td className="px-4 py-2 border">{relawan.name}</td>
                   <td className="px-4 py-2 border text-center">{relawan.email}</td>
-                  <td className="text-center px-4 py-2 border">{relawan.phone}</td>
-                  <td className="text-center px-4 py-2 border">{relawan.joined}</td>
+                  <td className="text-center px-4 py-2 border">{relawan.noHandphone}</td>
+                  <td className="text-center px-4 py-2 border">{relawan.formattedDate}</td>
                   <td className="text-center px-4 py-2 border">
-                    <a href="/admin/EditRelawanAdmin" className="btn btn-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Edit</a>
                     <button
                       onClick={() => handleDelete(relawan.id)}
                       className="ml-2 btn btn-sm bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700"

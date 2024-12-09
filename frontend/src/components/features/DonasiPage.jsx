@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DonationModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -9,19 +9,19 @@ const DonationModal = ({ isOpen, onClose }) => {
         <div className="text-center">
           <h2 className="text-gray-700 text-xl font-semibold mb-2">Jadilah Bagian dari Perubahan Hari Ini!</h2>
           <p className="text-gray-600 text-sm mb-4">Bersama kita bisa menciptakan dampak yang berarti</p>
-          
+
           <div className="mb-6">
             <i className="bi bi-exclamation-circle text-4xl text-yellow-500"></i>
           </div>
-          
+
           <p className="text-gray-700 text-sm mb-2">
-          Program donasi ini telah berakhir
+            Program donasi ini telah berakhir
           </p>
           <p className="text-gray-600 mb-6">
-          Lihat program donasi lainnya dan terus berbuat baik
+            Lihat program donasi lainnya dan terus berbuat baik
           </p>
 
-          <button 
+          <button
             onClick={onClose}
             className="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors"
           >
@@ -50,7 +50,7 @@ const DonasiPage = () => {
         DONASI
       </button>
 
-      <DonationModal 
+      <DonationModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
